@@ -135,7 +135,7 @@ export function AppSidebar() {
                       <SidebarMenuButton
                         asChild
                         size="sm"
-                        isActive={pathname === `/study-plans/${subject.path}`}
+                        isActive={pathname === `/study-plans`}
                         variant="ghost"
                       >
                         <Link href={`/study-plans`}>
