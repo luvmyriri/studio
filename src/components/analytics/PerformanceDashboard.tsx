@@ -37,59 +37,34 @@ import {
   CheckCircle,
   Brain,
   Zap,
+  Loader2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { PerformanceMetrics, QuizAttempt } from '@/lib/types';
+import { getUserData, type UserData } from '@/lib/user-data';
 
-// Sample data - in production, this would come from Firebase/API
-const samplePerformanceData = {
-  overall: {
-    totalQuizzes: 45,
-    averageScore: 78.5,
-    bestScore: 95,
-    timeSpent: 2400, // minutes
-    studyStreak: 12,
-    totalCorrect: 892,
-    totalQuestions: 1125,
-  },
-  subjectPerformance: [
-    { subject: 'Mathematics', score: 82, attempts: 12, timeSpent: 480 },
-    { subject: 'English Vocabulary', score: 88, attempts: 10, timeSpent: 360 },
-    { subject: 'General Information', score: 75, attempts: 8, timeSpent: 320 },
-    { subject: 'Philippine Constitution', score: 70, attempts: 9, timeSpent: 450 },
-    { subject: 'Science', score: 85, attempts: 6, timeSpent: 240 },
-  ],
-  progressTrend: [
-    { date: '2024-01-01', score: 65, quizzes: 3 },
-    { date: '2024-01-08', score: 68, quizzes: 5 },
-    { date: '2024-01-15', score: 72, quizzes: 4 },
-    { date: '2024-01-22', score: 75, quizzes: 6 },
-    { date: '2024-01-29', score: 78, quizzes: 7 },
-    { date: '2024-02-05', score: 81, quizzes: 5 },
-    { date: '2024-02-12', score: 79, quizzes: 4 },
-    { date: '2024-02-19', score: 83, quizzes: 6 },
-  ],
+// Empty default data structure
+const emptyPerformanceData = {
+  totalQuizzes: 0,
+  averageScore: 0,
+  bestScore: 0,
+  timeSpent: 0,
+  studyStreak: 0,
+  totalCorrect: 0,
+  totalQuestions: 0,
+  subjectPerformance: [],
+  progressTrend: [],
   weeklyActivity: [
-    { day: 'Mon', quizzes: 8, minutes: 120 },
-    { day: 'Tue', quizzes: 6, minutes: 90 },
-    { day: 'Wed', quizzes: 10, minutes: 150 },
-    { day: 'Thu', quizzes: 5, minutes: 75 },
-    { day: 'Fri', quizzes: 12, minutes: 180 },
-    { day: 'Sat', quizzes: 3, minutes: 45 },
-    { day: 'Sun', quizzes: 1, minutes: 15 },
+    { day: 'Mon', quizzes: 0, minutes: 0 },
+    { day: 'Tue', quizzes: 0, minutes: 0 },
+    { day: 'Wed', quizzes: 0, minutes: 0 },
+    { day: 'Thu', quizzes: 0, minutes: 0 },
+    { day: 'Fri', quizzes: 0, minutes: 0 },
+    { day: 'Sat', quizzes: 0, minutes: 0 },
+    { day: 'Sun', quizzes: 0, minutes: 0 },
   ],
-  weakAreas: [
-    { topic: 'Algebraic Expressions', accuracy: 60, frequency: 15 },
-    { topic: 'Constitutional Law', accuracy: 65, frequency: 12 },
-    { topic: 'Scientific Method', accuracy: 68, frequency: 8 },
-    { topic: 'Government Structure', accuracy: 70, frequency: 10 },
-  ],
-  strongAreas: [
-    { topic: 'Basic Arithmetic', accuracy: 95, frequency: 20 },
-    { topic: 'English Grammar', accuracy: 92, frequency: 18 },
-    { topic: 'Philippine History', accuracy: 90, frequency: 15 },
-    { topic: 'Reading Comprehension', accuracy: 88, frequency: 22 },
-  ],
+  weakAreas: [],
+  strongAreas: [],
 };
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
@@ -98,8 +73,27 @@ export function PerformanceDashboard() {
   const { currentUser } = useAuth();
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'quarter'>('month');
   const [selectedMetric, setSelectedMetric] = useState<'score' | 'time' | 'accuracy'>('score');
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const data = samplePerformanceData;
+  // Load user data from Firebase
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (currentUser) {
+        try {
+          const data = await getUserData(currentUser.uid);
+          setUserData(data);
+        } catch (error) {
+          console.error('Error loading user data:', error);
+        }
+      }
+      setLoading(false);
+    };
+
+    loadUserData();
+  }, [currentUser]);
+
+  const data = userData?.performance || emptyPerformanceData;
 
   const getScoreTrend = () => {
     const recent = data.progressTrend.slice(-2);
@@ -122,6 +116,51 @@ export function PerformanceDashboard() {
     if (score >= 70) return 'text-yellow-600';
     return 'text-red-600';
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading your analytics...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show empty state for new users
+  if (!currentUser || data.totalQuizzes === 0) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold">Performance Analytics</h1>
+          <p className="text-muted-foreground">
+            Track your progress and identify areas for improvement
+          </p>
+        </div>
+        
+        <Card>
+          <CardContent className="p-12 text-center">
+            <BarChart3 className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-xl font-semibold mb-2">No Data Yet</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              Start taking quizzes and exams to see your performance analytics here. 
+              Your progress will be tracked automatically.
+            </p>
+            <Button onClick={() => window.location.href = '/quiz'} className="mr-2">
+              Take Your First Quiz
+            </Button>
+            <Button variant="outline" onClick={() => window.location.href = '/mock-exam'}>
+              Try Mock Exam
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

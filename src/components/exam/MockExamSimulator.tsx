@@ -46,6 +46,7 @@ import {
 import { cn } from '@/lib/utils';
 import { EnhancedQuiz } from '@/components/quiz/EnhancedQuiz';
 import type { MockExam, Quiz, QuestionAttempt } from '@/lib/types';
+import { saveQuizAttempt } from '@/lib/user-data';
 
 // Sample mock exams data
 const mockExams: MockExam[] = [
@@ -186,7 +187,7 @@ export function MockExamSimulator({ examId }: MockExamSimulatorProps) {
     setShowConfirmStart(false);
   };
 
-  const handleExamComplete = (attempt: any) => {
+  const handleExamComplete = async (attempt: any) => {
     if (!selectedExam || !currentQuiz) return;
 
     // Analyze results by subject
@@ -238,6 +239,31 @@ export function MockExamSimulator({ examId }: MockExamSimulatorProps) {
       passingGrade: attempt.percentage >= selectedExam.passingScore,
       completedAt: new Date()
     };
+
+    // Save exam results to Firebase
+    if (currentUser) {
+      try {
+        await saveQuizAttempt(currentUser.uid, {
+          quizId: selectedExam.id,
+          quizTitle: selectedExam.title,
+          subject: 'Mock Exam',
+          questions: attempt.questions.map((q: QuestionAttempt) => ({
+            questionId: q.questionId,
+            selectedAnswer: q.selectedAnswer,
+            correctAnswer: q.correctAnswer,
+            isCorrect: q.isCorrect,
+            timeSpent: q.timeSpent,
+          })),
+          score: attempt.score,
+          totalQuestions: attempt.total,
+          percentage: attempt.percentage,
+          timeSpent: attempt.timeSpent,
+          completedAt: new Date(),
+        });
+      } catch (error) {
+        console.error('Error saving exam attempt:', error);
+      }
+    }
 
     setExamResults(results);
     setExamState('results');

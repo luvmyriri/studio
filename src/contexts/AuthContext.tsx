@@ -15,6 +15,7 @@ import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from 'firebase/firest
 import { auth, db, googleProvider } from '@/lib/firebase';
 import { User, UserPreferences } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { initializeUserData, getUserData } from '@/lib/user-data';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -60,44 +61,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const createUserDocument = async (firebaseUser: FirebaseUser, additionalData: any = {}) => {
     if (!firebaseUser) return;
 
-    const userRef = doc(db, 'users', firebaseUser.uid);
-    const userDoc = await getDoc(userRef);
-
-    if (!userDoc.exists()) {
-      const newUser: User = {
-        uid: firebaseUser.uid,
+    try {
+      // Initialize user data using the new system
+      await initializeUserData(firebaseUser.uid, {
         email: firebaseUser.email!,
-        displayName: firebaseUser.displayName || additionalData.displayName || '',
-        photoURL: firebaseUser.photoURL || null,
-        createdAt: new Date(),
-        lastLogin: new Date(),
-        studyStreak: 0,
-        totalScore: 0,
-        totalQuizzesTaken: 0,
-        achievements: [],
-        preferences: defaultPreferences,
-        ...additionalData,
-      };
-
-      try {
-        await setDoc(userRef, {
-          ...newUser,
-          createdAt: serverTimestamp(),
-          lastLogin: serverTimestamp(),
-        });
-        setCurrentUser(newUser);
-      } catch (error) {
-        console.error('Error creating user document:', error);
-        throw error;
-      }
-    } else {
-      // Update last login
-      await updateDoc(userRef, {
-        lastLogin: serverTimestamp(),
+        displayName: firebaseUser.displayName || additionalData.displayName,
+        photoURL: firebaseUser.photoURL,
       });
-      
-      const userData = userDoc.data() as User;
-      setCurrentUser(userData);
+
+      // Get the user data and convert to the old User type for compatibility
+      const userData = await getUserData(firebaseUser.uid);
+      if (userData) {
+        const legacyUser: User = {
+          uid: userData.profile.uid,
+          email: userData.profile.email,
+          displayName: userData.profile.displayName,
+          photoURL: userData.profile.photoURL,
+          createdAt: userData.profile.joinedAt,
+          lastLogin: userData.profile.lastActive,
+          studyStreak: userData.profile.streakCount,
+          totalScore: userData.profile.totalPoints,
+          totalQuizzesTaken: userData.performance.totalQuizzes,
+          achievements: userData.achievements || [],
+          preferences: {
+            theme: userData.settings.theme,
+            difficulty: userData.settings.difficulty as any,
+            studyTime: 30,
+            subjects: ['General Information', 'Mathematics', 'Vocabulary (English and Tagalog)'],
+            notifications: {
+              daily: userData.settings.studyReminders,
+              weekly: userData.settings.notifications,
+              achievements: userData.settings.notifications,
+            },
+          },
+        };
+        setCurrentUser(legacyUser);
+      }
+    } catch (error) {
+      console.error('Error creating/fetching user document:', error);
+      throw error;
     }
   };
 

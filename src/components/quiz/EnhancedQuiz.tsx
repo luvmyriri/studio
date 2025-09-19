@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { saveQuizAttempt } from '@/lib/user-data';
 
 interface EnhancedQuizProps {
   quiz: QuizType;
@@ -123,7 +124,7 @@ export function EnhancedQuiz({
     }
   }, [currentQuestionIndex, questionStartTime, totalQuestions]);
 
-  const handleFinishQuiz = useCallback(() => {
+  const handleFinishQuiz = useCallback(async () => {
     const totalTimeSpent = Date.now() - startTime;
     const questionAttempts: QuestionAttempt[] = questions.map((question, index) => {
       const selectedAnswer = answers[index] || '';
@@ -151,9 +152,39 @@ export function EnhancedQuiz({
       flaggedQuestions: Array.from(flaggedQuestions),
     };
 
+    // Save quiz attempt to Firebase
     if (currentUser) {
-      // Save quiz attempt to database here
-      // saveQuizAttempt(currentUser.uid, result);
+      try {
+        await saveQuizAttempt(currentUser.uid, {
+          quizId: quiz.id || `quiz_${Date.now()}`,
+          quizTitle: quiz.title || 'Practice Quiz',
+          subject: questions[0]?.subject || 'General',
+          questions: questionAttempts.map(q => ({
+            questionId: q.questionId,
+            selectedAnswer: q.selectedAnswer,
+            correctAnswer: q.correctAnswer,
+            isCorrect: q.isCorrect,
+            timeSpent: q.timeSpent,
+          })),
+          score,
+          totalQuestions,
+          percentage,
+          timeSpent: totalTimeSpent,
+          completedAt: new Date(),
+        });
+        
+        toast({
+          title: "Quiz Completed!",
+          description: `Your score has been saved. You got ${score}/${totalQuestions} correct (${percentage}%)`,
+        });
+      } catch (error) {
+        console.error('Error saving quiz attempt:', error);
+        toast({
+          title: "Quiz Completed",
+          description: `You got ${score}/${totalQuestions} correct (${percentage}%), but there was an issue saving your progress.`,
+          variant: "destructive",
+        });
+      }
     }
 
     setShowResults(true);
@@ -166,7 +197,9 @@ export function EnhancedQuiz({
     flaggedQuestions, 
     totalQuestions, 
     currentUser, 
-    onFinish
+    quiz,
+    onFinish,
+    toast
   ]);
 
   const getQuestionStatus = useCallback((index: number) => {
