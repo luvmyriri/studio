@@ -1,0 +1,284 @@
+'use client';
+
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { 
+  User as FirebaseUser,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+  updateProfile,
+  sendPasswordResetEmail,
+} from 'firebase/auth';
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db, googleProvider } from '@/lib/firebase';
+import { User, UserPreferences } from '@/lib/types';
+import { useToast } from '@/hooks/use-toast';
+
+interface AuthContextType {
+  currentUser: User | null;
+  firebaseUser: FirebaseUser | null;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, displayName: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
+  logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  updateUserProfile: (updates: Partial<User>) => Promise<void>;
+  refreshUser: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
+
+const defaultPreferences: UserPreferences = {
+  theme: 'system',
+  difficulty: 'medium',
+  studyTime: 30,
+  subjects: ['General Information', 'Mathematics', 'Vocabulary (English and Tagalog)'],
+  notifications: {
+    daily: true,
+    weekly: true,
+    achievements: true,
+  },
+};
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  const createUserDocument = async (firebaseUser: FirebaseUser, additionalData: any = {}) => {
+    if (!firebaseUser) return;
+
+    const userRef = doc(db, 'users', firebaseUser.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      const newUser: User = {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email!,
+        displayName: firebaseUser.displayName || additionalData.displayName || '',
+        photoURL: firebaseUser.photoURL || null,
+        createdAt: new Date(),
+        lastLogin: new Date(),
+        studyStreak: 0,
+        totalScore: 0,
+        totalQuizzesTaken: 0,
+        achievements: [],
+        preferences: defaultPreferences,
+        ...additionalData,
+      };
+
+      try {
+        await setDoc(userRef, {
+          ...newUser,
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+        });
+        setCurrentUser(newUser);
+      } catch (error) {
+        console.error('Error creating user document:', error);
+        throw error;
+      }
+    } else {
+      // Update last login
+      await updateDoc(userRef, {
+        lastLogin: serverTimestamp(),
+      });
+      
+      const userData = userDoc.data() as User;
+      setCurrentUser(userData);
+    }
+  };
+
+  const refreshUser = async () => {
+    if (!firebaseUser) return;
+    
+    const userRef = doc(db, 'users', firebaseUser.uid);
+    const userDoc = await getDoc(userRef);
+    
+    if (userDoc.exists()) {
+      setCurrentUser(userDoc.data() as User);
+    }
+  };
+
+  const login = async (email: string, password: string) => {
+    try {
+      setLoading(true);
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      await createUserDocument(result.user);
+      toast({
+        title: 'Welcome back!',
+        description: 'You have successfully logged in.',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Login failed',
+        description: error.message || 'An error occurred during login.',
+      });
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const register = async (email: string, password: string, displayName: string) => {
+    try {
+      setLoading(true);
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Update the Firebase user profile
+      await updateProfile(result.user, {
+        displayName,
+      });
+
+      await createUserDocument(result.user, { displayName });
+      
+      toast({
+        title: 'Account created!',
+        description: "Welcome to Civil Service Exam Prep. Let's start your learning journey!",
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Registration failed',
+        description: error.message || 'An error occurred during registration.',
+      });
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginWithGoogle = async () => {
+    try {
+      setLoading(true);
+      const result = await signInWithPopup(auth, googleProvider);
+      await createUserDocument(result.user);
+      toast({
+        title: 'Welcome!',
+        description: 'You have successfully logged in with Google.',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Google login failed',
+        description: error.message || 'An error occurred during Google login.',
+      });
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setCurrentUser(null);
+      setFirebaseUser(null);
+      toast({
+        title: 'Logged out',
+        description: 'You have been successfully logged out.',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Logout failed',
+        description: error.message || 'An error occurred during logout.',
+      });
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast({
+        title: 'Password reset sent',
+        description: 'Check your email for password reset instructions.',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Password reset failed',
+        description: error.message || 'An error occurred while sending password reset email.',
+      });
+      throw error;
+    }
+  };
+
+  const updateUserProfile = async (updates: Partial<User>) => {
+    if (!currentUser) return;
+
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      await updateDoc(userRef, {
+        ...updates,
+        updatedAt: serverTimestamp(),
+      });
+      
+      setCurrentUser(prev => prev ? { ...prev, ...updates } : null);
+      
+      toast({
+        title: 'Profile updated',
+        description: 'Your profile has been successfully updated.',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Update failed',
+        description: error.message || 'An error occurred while updating your profile.',
+      });
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    
+    try {
+      unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          setFirebaseUser(user);
+          await createUserDocument(user);
+        } else {
+          setFirebaseUser(null);
+          setCurrentUser(null);
+        }
+        setLoading(false);
+      });
+    } catch (error) {
+      console.warn('Firebase not configured properly, running in demo mode:', error);
+      setLoading(false);
+    }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, []);
+
+  const value: AuthContextType = {
+    currentUser,
+    firebaseUser,
+    loading,
+    login,
+    register,
+    loginWithGoogle,
+    logout,
+    resetPassword,
+    updateUserProfile,
+    refreshUser,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}

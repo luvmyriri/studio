@@ -8,10 +8,11 @@ import {
 } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/layout/AppSidebar';
 import { Header } from '@/components/layout/Header';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
-  title: 'Civil Service Reviewer',
-  description: 'AI-powered reviewer for the Philippine Civil Service Exam.',
+  title: 'Civil Service Exam Prep - Firebase Studio',
+  description: 'AI-powered Philippine Civil Service Exam preparation with personalized quizzes, study plans, and comprehensive analytics.',
 };
 
 export default function RootLayout({
@@ -34,19 +35,21 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <SidebarProvider>
-          <Sidebar>
-            <AppSidebar />
-          </Sidebar>
-          <SidebarInset>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-1 container mx-auto p-4 md:p-8">
-                {children}
-              </main>
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
+        <AuthProvider>
+          <SidebarProvider>
+            <Sidebar>
+              <AppSidebar />
+            </Sidebar>
+            <SidebarInset>
+              <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-1 container mx-auto p-4 md:p-8">
+                  {children}
+                </main>
+              </div>
+            </SidebarInset>
+          </SidebarProvider>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>
