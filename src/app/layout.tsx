@@ -14,6 +14,12 @@ import { AuthProvider } from '@/contexts/AuthContext';
 export const metadata: Metadata = {
   title: 'BSOAD Civil Service Exam Reviewer',
   description: 'AI-powered Philippine Civil Service Exam preparation with personalized quizzes, study plans, and comprehensive analytics.',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({

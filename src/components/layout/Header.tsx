@@ -2,6 +2,7 @@
 
 import { BrainCircuit, User, LogIn } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import {
@@ -43,11 +44,43 @@ export function Header() {
     <header className="py-4 px-6 border-b border-border bg-transparent flex items-center gap-4">
       <SidebarTrigger className="md:hidden" />
       <div className="container mx-auto flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <BrainCircuit className="w-8 h-8 text-primary group-hover:animate-pulse" />
-          <h1 className="text-2xl font-bold text-foreground">
-            BSOAD Civil Service Reviewer
-          </h1>
+        <Link href="/" className="flex items-center gap-3 group">
+          {/* Desktop Logo */}
+          <div className="hidden sm:block relative w-12 h-12 group-hover:scale-105 transition-transform">
+            <Image
+              src="/logo.svg"
+              alt="BSOAD Logo"
+              width={48}
+              height={48}
+              className="w-full h-full"
+              priority
+            />
+          </div>
+          {/* Mobile Logo */}
+          <div className="sm:hidden relative w-8 h-8 group-hover:scale-105 transition-transform">
+            <Image
+              src="/icon.svg"
+              alt="BSOAD Logo"
+              width={32}
+              height={32}
+              className="w-full h-full"
+              priority
+            />
+          </div>
+          <div className="hidden sm:block">
+            <h1 className="text-xl font-bold text-foreground leading-tight">
+              BSOAD Civil Service Reviewer
+            </h1>
+            <p className="text-xs text-muted-foreground">
+              Philippine Government Exam Preparation
+            </p>
+          </div>
+          {/* Mobile Text */}
+          <div className="sm:hidden">
+            <h1 className="text-lg font-bold text-foreground">
+              BSOAD
+            </h1>
+          </div>
         </Link>
 
         <div className="flex items-center gap-4">

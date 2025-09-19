@@ -1,0 +1,35 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with Philippine flag blue -->
+  <circle cx="20" cy="20" r="18" fill="#0038A8" stroke="#FCD116" stroke-width="1.5"/>
+  
+  <!-- Philippine sun rays (simplified) -->
+  <g transform="translate(20, 20)">
+    <!-- Main sun circle -->
+    <circle cx="0" cy="0" r="8" fill="#FCD116"/>
+    
+    <!-- Sun rays -->
+    <line x1="0" y1="-13" x2="0" y2="-10" stroke="#FCD116" stroke-width="1.5"/>
+    <line x1="9.19" y1="-9.19" x2="7.07" y2="-7.07" stroke="#FCD116" stroke-width="1.5"/>
+    <line x1="13" y1="0" x2="10" y2="0" stroke="#FCD116" stroke-width="1.5"/>
+    <line x1="9.19" y1="9.19" x2="7.07" y2="7.07" stroke="#FCD116" stroke-width="1.5"/>
+    <line x1="0" y1="13" x2="0" y2="10" stroke="#FCD116" stroke-width="1.5"/>
+    <line x1="-9.19" y1="9.19" x2="-7.07" y2="7.07" stroke="#FCD116" stroke-width="1.5"/>
+    <line x1="-13" y1="0" x2="-10" y2="0" stroke="#FCD116" stroke-width="1.5"/>
+    <line x1="-9.19" y1="-9.19" x2="-7.07" y2="-7.07" stroke="#FCD116" stroke-width="1.5"/>
+    
+    <!-- Government building icon in the center -->
+    <rect x="-4" y="-1" width="8" height="5" fill="#0038A8" rx="0.5"/>
+    <rect x="-3" y="-4" width="6" height="3" fill="#0038A8" rx="0.5"/>
+    <rect x="-1.5" y="-5" width="3" height="1" fill="#0038A8" rx="0.3"/>
+    
+    <!-- Pillars -->
+    <rect x="-3" y="0" width="0.6" height="3" fill="#FCD116"/>
+    <rect x="-1" y="0" width="0.6" height="3" fill="#FCD116"/>
+    <rect x="1" y="0" width="0.6" height="3" fill="#FCD116"/>
+    <rect x="3" y="0" width="0.6" height="3" fill="#FCD116"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="45" y="17" font-family="serif" font-size="12" font-weight="bold" fill="#0038A8">BSOAD</text>
+  <text x="45" y="30" font-family="sans-serif" font-size="8" fill="#666">Civil Service</text>
+</svg>
