@@ -23,7 +23,7 @@ import {
   PencilRuler,
   Gavel,
 } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 const civilServiceSubjects = [
   { name: 'Mathematics', icon: Calculator, query: 'Mathematics', path: 'mathematics' },
@@ -36,6 +36,8 @@ const civilServiceSubjects = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentTopic = searchParams.get('topic');
 
   return (
     <>
@@ -53,7 +55,7 @@ export function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/quiz'}>
+            <SidebarMenuButton asChild isActive={pathname === '/quiz' && !currentTopic}>
               <Link href="/quiz">
                 <PencilRuler />
                 Take a Quiz
@@ -69,7 +71,7 @@ export function AppSidebar() {
           <SidebarMenu>
             {civilServiceSubjects.map((subject) => (
               <SidebarMenuItem key={subject.name}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={pathname === '/quiz' && currentTopic === subject.query}>
                   <Link href={`/quiz?topic=${encodeURIComponent(subject.query)}`}>
                     <subject.icon />
                     {subject.name}

@@ -14,6 +14,10 @@ function QuizFlowContent() {
   const initialTopic = searchParams.get('topic');
   const initialModeParam = searchParams.get('mode');
 
+  // By combining the mode and topic into a key, we can force a re-render
+  // when the user clicks a different topic from the sidebar.
+  const componentKey = `${initialModeParam}-${initialTopic}`;
+
   const getInitialMode = () => {
     if (initialModeParam === 'mock') return 'mock';
     if (initialModeParam === 'ai' || initialTopic) return 'ai';
@@ -25,7 +29,7 @@ function QuizFlowContent() {
   );
   const [results, setResults] = useState<{ score: number; total: number } | null>(null);
   const [mode, setMode] = useState<'selector' | 'ai' | 'mock'>(getInitialMode());
-  const [key, setKey] = useState(Date.now());
+  
 
   const handleQuizGenerated = (generatedQuiz: QuizType) => {
     setQuiz(generatedQuiz);
@@ -43,7 +47,6 @@ function QuizFlowContent() {
     setMode('selector');
     // Use Next.js router to navigate without a full page reload
     window.history.pushState(null, '', '/quiz');
-    setKey(Date.now());
   };
 
   const handleSetMode = (newMode: 'ai' | 'mock') => {
@@ -54,13 +57,12 @@ function QuizFlowContent() {
     } else {
       setMode(newMode);
     }
-    setKey(Date.now());
   };
 
   if (results) {
     return (
       <QuizResults
-        key={key}
+        key={componentKey}
         score={results.score}
         total={results.total}
         onRestart={handleRestart}
@@ -69,17 +71,17 @@ function QuizFlowContent() {
   }
 
   if (quiz) {
-    return <Quiz key={key} quiz={quiz} onFinish={handleQuizFinished} />;
+    return <Quiz key={componentKey} quiz={quiz} onFinish={handleQuizFinished} />;
   }
 
   if (mode === 'selector') {
-    return <QuizModeSelector key={key} setMode={handleSetMode} />;
+    return <QuizModeSelector key={componentKey} setMode={handleSetMode} />;
   }
 
   if (mode === 'ai') {
     return (
       <QuizGenerator
-        key={key}
+        key={componentKey}
         onQuizGenerated={handleQuizGenerated}
         initialTopic={initialTopic || undefined}
       />
