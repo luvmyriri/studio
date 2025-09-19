@@ -44,40 +44,42 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useAdmin } from '@/hooks/useAdmin';
+import { CIVIL_SERVICE_SUBJECTS } from '@/lib/quiz-service';
 
-const civilServiceSubjects = [
-  {
-    name: 'Mathematics',
-    icon: Calculator,
-    query: 'Mathematics',
-    path: 'mathematics',
-  },
-  {
-    name: 'Vocabulary',
-    icon: Languages,
-    query: 'Vocabulary (English and Tagalog)',
-    path: 'vocabulary',
-  },
-  {
-    name: 'Clerical Analysis',
-    icon: ScanText,
-    query: 'Clerical Analysis',
-    path: 'clerical-analysis',
-  },
-  { name: 'Science', icon: FlaskConical, query: 'Science', path: 'science' },
-  {
-    name: 'General Information',
-    icon: Globe,
-    query: 'General Information',
-    path: 'general-information',
-  },
-  {
-    name: 'Philippine Constitution',
-    icon: Gavel,
-    query: 'Philippine Constitution',
-    path: 'philippine-constitution',
-  },
-] as const;
+// Create sidebar-specific subject configuration from centralized constants
+const civilServiceSubjects = CIVIL_SERVICE_SUBJECTS.map((subject) => {
+  const config = {
+    name: subject,
+    query: subject,
+    path: subject.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+    icon: Calculator // default icon
+  };
+  
+  // Map specific icons for each subject
+  switch (subject) {
+    case 'Mathematics':
+      config.icon = Calculator;
+      break;
+    case 'Vocabulary (English and Tagalog)':
+      config.icon = Languages;
+      config.name = 'Vocabulary';
+      break;
+    case 'Clerical Analysis':
+      config.icon = ScanText;
+      break;
+    case 'Science':
+      config.icon = FlaskConical;
+      break;
+    case 'General Information':
+      config.icon = Globe;
+      break;
+    case 'Philippine Constitution':
+      config.icon = Gavel;
+      break;
+  }
+  
+  return config;
+});
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -126,10 +128,10 @@ export function AppSidebar() {
         {/* Main Features */}
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/quiz'}>
-              <Link href="/quiz">
-                <Play />
-                Practice Quiz
+            <SidebarMenuButton asChild isActive={pathname === '/ai-quiz'}>
+              <Link href="/ai-quiz">
+                <Brain />
+                AI Personalized Quiz
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -137,15 +139,7 @@ export function AppSidebar() {
             <SidebarMenuButton asChild isActive={pathname === '/mock-exam'}>
               <Link href="/mock-exam">
                 <Target />
-                Mock Exam
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/ai-quiz'}>
-              <Link href="/ai-quiz">
-                <Brain />
-                AI Quiz
+                Civil Service Mock Exam
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -312,7 +306,7 @@ export function AppSidebar() {
             </Collapsible>
           </SidebarMenuItem>
 
-          {/* Questions Section */}
+          {/* Custom Quiz Section */}
           <SidebarMenuItem>
             <Collapsible
               open={openSections.questions}
@@ -325,7 +319,7 @@ export function AppSidebar() {
                 >
                   <div className="flex items-center gap-2">
                     <FileQuestion />
-                    <span>Questions</span>
+                    <span>Custom Quiz</span>
                   </div>
                   <ChevronDown
                     className={cn(
@@ -337,32 +331,22 @@ export function AppSidebar() {
               </CollapsibleTrigger>
               <CollapsibleContent className="py-1 pl-6 pr-2">
                  <SidebarMenu>
-                    <SidebarMenuItem>
-                       <SidebarMenuButton
-                        asChild
-                        size="sm"
-                        isActive={pathname.includes('mode=mock')}
-                        variant="ghost"
-                      >
-                        <Link href="/questions?mode=mock">
-                          <PencilRuler/>
-                          Mock Exam
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                     <SidebarMenuItem>
-                       <SidebarMenuButton
-                        asChild
-                        size="sm"
-                        isActive={pathname.includes('mode=ai')}
-                        variant="ghost"
-                      >
-                        <Link href="/questions?mode=ai">
-                          <Book/>
-                          AI Generated
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
+                    {/* Individual subject quiz generators */}
+                    {civilServiceSubjects.map((subject) => (
+                      <SidebarMenuItem key={subject.path}>
+                        <SidebarMenuButton
+                          asChild
+                          size="sm"
+                          isActive={pathname === `/questions/${subject.path}`}
+                          variant="ghost"
+                        >
+                          <Link href={`/questions?subject=${encodeURIComponent(subject.query)}&mode=custom`}>
+                            <subject.icon />
+                            {subject.name}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
                  </SidebarMenu>
               </CollapsibleContent>
             </Collapsible>

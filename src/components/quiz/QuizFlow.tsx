@@ -6,7 +6,9 @@ import { QuizGenerator } from './QuizGenerator';
 import { Quiz } from './Quiz';
 import { QuizResults } from './QuizResults';
 import { QuizModeSelector } from './QuizModeSelector';
+import { AIQuizGenerator } from './AIQuizGenerator';
 import { useSearchParams } from 'next/navigation';
+import { QuizService } from '@/lib/quiz-service';
 import mockQuizData from '@/lib/mock-quiz.json';
 
 function QuizFlowContent() {
@@ -32,7 +34,8 @@ function QuizFlowContent() {
     getInitialMode() === 'mock' ? (mockQuizData as QuizType) : null
   );
   const [results, setResults] = useState<{ score: number; total: number } | null>(null);
-  const [mode, setMode] = useState<'selector' | 'ai' | 'mock'>(getInitialMode());
+  const [mode, setMode] = useState<'selector' | 'ai' | 'ai-personalized' | 'mock'>(getInitialMode());
+  const [aiMode, setAIMode] = useState<'generator' | 'personalized'>('generator');
   
 
   const handleQuizGenerated = (generatedQuiz: QuizType) => {
@@ -60,6 +63,16 @@ function QuizFlowContent() {
       setMode('mock');
     } else {
       setMode(newMode);
+      setAIMode('generator'); // Default to generator mode
+    }
+  };
+
+  const handleAIModeSwitch = (newAIMode: 'generator' | 'personalized') => {
+    setAIMode(newAIMode);
+    if (newAIMode === 'personalized') {
+      setMode('ai-personalized');
+    } else {
+      setMode('ai');
     }
   };
 
@@ -84,14 +97,56 @@ function QuizFlowContent() {
 
   if (mode === 'ai') {
     return (
-      <QuizGenerator
+      <div className="space-y-6">
+        {/* AI Mode Selector */}
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => handleAIModeSwitch('generator')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              aiMode === 'generator'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+            }`}
+          >
+            Custom Quiz Generator
+          </button>
+          <button
+            onClick={() => handleAIModeSwitch('personalized')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              aiMode === 'personalized'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+            }`}
+          >
+            AI-Personalized Suggestions
+          </button>
+        </div>
+        
+        {aiMode === 'generator' ? (
+          <QuizGenerator
+            key={componentKey}
+            onQuizGenerated={handleQuizGenerated}
+            initialTopic={initialTopic || undefined}
+            aiGenerated={aiGenerated === 'true'}
+            initialNumQuestions={numQuestions ? parseInt(numQuestions) : undefined}
+            initialDifficulty={difficulty as 'easy' | 'medium' | 'hard' | undefined}
+            userContext={userContext ? JSON.parse(userContext) : undefined}
+          />
+        ) : (
+          <AIQuizGenerator
+            key={componentKey}
+            onQuizGenerated={handleQuizGenerated}
+          />
+        )}
+      </div>
+    );
+  }
+  
+  if (mode === 'ai-personalized') {
+    return (
+      <AIQuizGenerator
         key={componentKey}
         onQuizGenerated={handleQuizGenerated}
-        initialTopic={initialTopic || undefined}
-        aiGenerated={aiGenerated === 'true'}
-        initialNumQuestions={numQuestions ? parseInt(numQuestions) : undefined}
-        initialDifficulty={difficulty as 'easy' | 'medium' | 'hard' | undefined}
-        userContext={userContext ? JSON.parse(userContext) : undefined}
       />
     );
   }

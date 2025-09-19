@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-// import { generateQuiz } from '@/app/actions'; // Disabled for static export
 import type { Quiz } from '@/lib/types';
+import { QuizService, CIVIL_SERVICE_SUBJECTS, QUESTION_LIMITS } from '@/lib/quiz-service';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -32,18 +32,9 @@ import {
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-const civilServiceSubjects = [
-  'Mathematics',
-  'Vocabulary (English and Tagalog)',
-  'Clerical Analysis',
-  'Science',
-  'General Information',
-  'Philippine Constitution',
-] as const;
-
 const formSchema = z.object({
-  topic: z.enum(civilServiceSubjects),
-  numQuestions: z.coerce.number().min(3).max(10),
+  topic: z.enum(CIVIL_SERVICE_SUBJECTS),
+  numQuestions: z.coerce.number().min(QUESTION_LIMITS.min).max(QUESTION_LIMITS.max),
   difficulty: z.enum(['easy', 'medium', 'hard']),
 });
 
@@ -86,68 +77,44 @@ export function QuizGenerator({
     setIsLoading(true);
     
     try {
-      // Use Gemini AI if available and requested
-      if (aiGenerated) {
-        const { generateQuizWithGemini } = await import('@/lib/gemini');
-        
-        const aiRequest = {
-          subject: values.topic,
-          difficulty: values.difficulty,
-          numQuestions: values.numQuestions,
-          userContext,
-          focusAreas: userContext?.weakSubjects || []
-        };
-        
-        console.log('Generating quiz with Gemini AI:', aiRequest);
-        const aiQuizResponse = await generateQuizWithGemini(aiRequest);
-        
-        setIsLoading(false);
-        onQuizGenerated(aiQuizResponse);
-        
-        toast({
-          title: '🤖 AI Quiz Generated!',
-          description: `Created ${values.numQuestions} personalized ${values.topic} questions using Gemini AI`,
-        });
-        return;
-      }
-      
-      // Fallback to mock generation for non-AI requests
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const mockQuiz = {
-        quiz: Array.from({ length: values.numQuestions }, (_, i) => ({
-          id: `q${i + 1}`,
-          question: `Sample ${values.topic} question ${i + 1} (${values.difficulty} difficulty)`,
-          answers: [
-            `Option A for question ${i + 1}`,
-            `Option B for question ${i + 1}`,
-            `Option C for question ${i + 1}`,
-            `Option D for question ${i + 1}`
-          ],
-          correctAnswer: `Option A for question ${i + 1}`,
-          subject: values.topic,
-          difficulty: values.difficulty,
-          explanation: `This is the explanation for question ${i + 1}`,
-          tags: [values.topic.toLowerCase().replace(/\s+/g, '-')]
-        }))
+      const quizRequest = {
+        subject: values.topic,
+        difficulty: values.difficulty,
+        numQuestions: values.numQuestions,
+        userContext,
+        useAI: aiGenerated,
+        isPersonalized: !!userContext && aiGenerated
       };
       
-      setIsLoading(false);
-      onQuizGenerated(mockQuiz);
+      console.log('Generating quiz with unified service:', quizRequest);
+      const generatedQuiz = await QuizService.generateQuiz(quizRequest);
+      
+      onQuizGenerated(generatedQuiz);
+      
+      const toastTitle = aiGenerated && userContext 
+        ? '🧠 AI-Personalized Quiz Generated!'
+        : aiGenerated 
+          ? '🤖 AI Quiz Generated!' 
+          : '📝 Quiz Generated!';
+      
+      const toastDescription = aiGenerated 
+        ? `Created ${values.numQuestions} ${userContext ? 'personalized ' : ''}${values.topic} questions using ${userContext ? 'personalized AI' : 'AI'}`
+        : `Generated ${values.numQuestions} questions for ${values.topic}`;
       
       toast({
-        title: 'Quiz Generated!',
-        description: `Generated ${values.numQuestions} questions for ${values.topic} (Demo Mode)`,
+        title: toastTitle,
+        description: toastDescription,
       });
     } catch (error) {
       console.error('Error generating quiz:', error);
-      setIsLoading(false);
       
       toast({
         variant: 'destructive',
         title: 'Error Generating Quiz',
         description: 'Failed to generate quiz. Please try again.',
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -203,7 +170,7 @@ export function QuizGenerator({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {civilServiceSubjects.map((subject) => (
+                        {CIVIL_SERVICE_SUBJECTS.map((subject) => (
                           <SelectItem key={subject} value={subject}>
                             {subject}
                           </SelectItem>
@@ -231,7 +198,7 @@ export function QuizGenerator({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {[3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                        {QuizService.getQuestionCountOptions().map(num => (
                           <SelectItem key={num} value={String(num)}>
                             {num}
                           </SelectItem>

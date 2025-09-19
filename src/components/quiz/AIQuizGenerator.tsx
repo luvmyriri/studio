@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, Brain, Target, TrendingUp, Zap, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getUserData } from '@/lib/user-data';
-import { useRouter } from 'next/navigation';
+import { QuizService, QUESTION_LIMITS } from '@/lib/quiz-service';
+import type { Quiz } from '@/lib/types';
 
 interface UserAnalytics {
   weakSubjects: string[];
@@ -29,10 +30,13 @@ interface AIQuizSuggestion {
   priority: 'high' | 'medium' | 'low';
 }
 
-export function AIQuizGenerator() {
+interface AIQuizGeneratorProps {
+  onQuizGenerated?: (quiz: Quiz) => void;
+}
+
+export function AIQuizGenerator({ onQuizGenerated }: AIQuizGeneratorProps = {}) {
   const { firebaseUser } = useAuth();
   const { toast } = useToast();
-  const router = useRouter();
   const [analytics, setAnalytics] = useState<UserAnalytics | null>(null);
   const [suggestions, setSuggestions] = useState<AIQuizSuggestion[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,7 +102,7 @@ export function AIQuizGenerator() {
         description: `Focus quiz on ${subject} to improve your weakest area`,
         subject,
         difficulty: 'easy',
-        questionCount: 15,
+        questionCount: QuizService.getRecommendedQuestionCount({ useAI: true }),
         reason: `Your current average in ${subject} needs improvement`,
         priority: 'high'
       });
@@ -112,7 +116,7 @@ export function AIQuizGenerator() {
         description: `Take on harder ${strongSubject} questions to push your limits`,
         subject: strongSubject,
         difficulty: analytics.recommendedDifficulty,
-        questionCount: 20,
+        questionCount: QuizService.getRecommendedQuestionCount({ useAI: true, userLevel: 'advanced' }),
         reason: `You're doing well in ${strongSubject}, let's challenge you further`,
         priority: 'medium'
       });
@@ -124,7 +128,7 @@ export function AIQuizGenerator() {
       description: 'Mixed questions from all subjects based on your performance',
       subject: 'Mixed',
       difficulty: analytics.recommendedDifficulty,
-      questionCount: 25,
+      questionCount: QUESTION_LIMITS.max,
       reason: 'Balanced practice across all Civil Service Exam topics',
       priority: 'medium'
     });
@@ -135,7 +139,7 @@ export function AIQuizGenerator() {
       description: 'Short quiz focusing on recent mistakes',
       subject: analytics.weakSubjects[0] || 'General Information',
       difficulty: 'easy',
-      questionCount: 10,
+      questionCount: QuizService.getRecommendedQuestionCount({ useAI: false }),
       reason: 'Quick reinforcement of challenging concepts',
       priority: 'low'
     });
@@ -147,31 +151,32 @@ export function AIQuizGenerator() {
     setGeneratingQuiz(suggestion.title);
 
     try {
-      // Build query parameters based on suggestion
-      const params = new URLSearchParams({
-        aiGenerated: 'true',
-        numQuestions: suggestion.questionCount.toString(),
+      const quizRequest = {
+        subject: suggestion.subject,
         difficulty: suggestion.difficulty,
-      });
+        numQuestions: suggestion.questionCount,
+        userContext: {
+          weakSubjects: analytics?.weakSubjects || [],
+          averageScore: analytics?.averageScore || 0,
+          totalQuizzes: analytics?.totalQuizzes || 0
+        },
+        useAI: true,
+        isPersonalized: true
+      };
 
-      if (suggestion.subject !== 'Mixed') {
-        params.set('topic', suggestion.subject);
+      console.log('Generating AI quiz with suggestion:', quizRequest);
+      const generatedQuiz = await QuizService.generateQuiz(quizRequest);
+      
+      if (onQuizGenerated) {
+        onQuizGenerated(generatedQuiz);
       }
-
-      // Add user context for AI
-      params.set('userContext', JSON.stringify({
-        weakSubjects: analytics?.weakSubjects || [],
-        averageScore: analytics?.averageScore || 0,
-        totalQuizzes: analytics?.totalQuizzes || 0
-      }));
-
-      router.push(`/questions?${params.toString()}`);
       
       toast({
-        title: 'Generating AI Quiz...',
-        description: `Creating a personalized ${suggestion.title.toLowerCase()} for you`,
+        title: '🧠 AI Quiz Generated!',
+        description: `Created personalized ${suggestion.title.toLowerCase()} with ${suggestion.questionCount} questions`,
       });
     } catch (error) {
+      console.error('Error generating AI quiz:', error);
       toast({
         variant: 'destructive',
         title: 'Error',
