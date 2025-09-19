@@ -30,6 +30,15 @@ import {
   ClipboardCheck,
   BookOpenCheck,
   FileQuestion,
+  Users,
+  Trophy,
+  BarChart3,
+  Brain,
+  Settings,
+  Gamepad2,
+  MessageSquare,
+  Play,
+  Target,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -103,7 +112,69 @@ export function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
+        
         <SidebarSeparator />
+        
+        {/* Main Features */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/quiz'}>
+              <Link href="/quiz">
+                <Play />
+                Practice Quiz
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/mock-exam'}>
+              <Link href="/mock-exam">
+                <Target />
+                Mock Exam
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/materials'}>
+              <Link href="/materials">
+                <BookOpen />
+                Study Materials
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        
+        <SidebarSeparator />
+        
+        {/* Community & Progress */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/community'}>
+              <Link href="/community">
+                <MessageSquare />
+                Community
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/achievements'}>
+              <Link href="/achievements">
+                <Trophy />
+                Achievements
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/analytics'}>
+              <Link href="/analytics">
+                <BarChart3 />
+                Analytics
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        
+        <SidebarSeparator />
+        
         <SidebarMenu>
           {/* Study Plans Section */}
           <SidebarMenuItem>
@@ -249,6 +320,20 @@ export function AppSidebar() {
                  </SidebarMenu>
               </CollapsibleContent>
             </Collapsible>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        
+        <SidebarSeparator />
+        
+        {/* Admin Section */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/admin'}>
+              <Link href="/admin">
+                <Settings />
+                Admin Panel
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>

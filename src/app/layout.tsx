@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import { Toaster as SonnerToaster } from 'sonner';
 import {
   Sidebar,
   SidebarInset,
@@ -51,6 +52,7 @@ export default function RootLayout({
           </SidebarProvider>
         </AuthProvider>
         <Toaster />
+        <SonnerToaster position="top-right" richColors />
       </body>
     </html>
   );

@@ -57,7 +57,17 @@ export default function LessonPage({
 }: {
   params: { subject: string };
 }) {
-  const subjectKey = params.subject.replace('-', '_');
+  // Map URL-friendly subject names to resource keys
+  const subjectMapping: { [key: string]: string } = {
+    'mathematics': 'mathematics',
+    'vocabulary': 'vocabulary', 
+    'clerical-analysis': 'clerical_analysis',
+    'science': 'science',
+    'general-information': 'general_information',
+    'philippine-constitution': 'philippine_constitution'
+  };
+  
+  const subjectKey = subjectMapping[params.subject] || params.subject.replace(/-/g, '_');
   const resourceData = (resources as ResourcesData)[subjectKey];
 
   if (!resourceData) {
