@@ -59,12 +59,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast();
 
   const createUserDocument = async (firebaseUser: FirebaseUser, additionalData: any = {}) => {
-    if (!firebaseUser) return;
+    if (!firebaseUser || !firebaseUser.uid || !firebaseUser.email) {
+      console.error('Invalid firebase user:', firebaseUser);
+      return;
+    }
 
     try {
       // Initialize user data using the new system
       await initializeUserData(firebaseUser.uid, {
-        email: firebaseUser.email!,
+        email: firebaseUser.email,
         displayName: firebaseUser.displayName || additionalData.displayName,
         photoURL: firebaseUser.photoURL,
       });
@@ -99,7 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       console.error('Error creating/fetching user document:', error);
-      throw error;
+      // Don't throw error, just log it to prevent breaking the auth flow
     }
   };
 
@@ -250,12 +253,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     
     try {
       unsubscribe = onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          setFirebaseUser(user);
-          await createUserDocument(user);
-        } else {
-          setFirebaseUser(null);
-          setCurrentUser(null);
+        try {
+          if (user && user.uid && user.email) {
+            console.log('Auth state changed - user logged in:', user.email);
+            setFirebaseUser(user);
+            await createUserDocument(user);
+          } else {
+            console.log('Auth state changed - user logged out');
+            setFirebaseUser(null);
+            setCurrentUser(null);
+          }
+        } catch (error) {
+          console.error('Error in auth state change handler:', error);
         }
         setLoading(false);
       });

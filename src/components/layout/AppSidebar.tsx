@@ -43,6 +43,7 @@ import {
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { useAdmin } from '@/hooks/useAdmin';
 
 const civilServiceSubjects = [
   {
@@ -80,6 +81,7 @@ const civilServiceSubjects = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { isAdmin } = useAdmin();
   const [openSections, setOpenSections] = useState({
     studyPlans: false,
     lessons: false,
@@ -87,7 +89,13 @@ export function AppSidebar() {
   });
 
   const toggleSection = (section: keyof typeof openSections) => {
-    setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
+    setOpenSections((prev) => {
+      // Close all sections first
+      const newSections = { studyPlans: false, lessons: false, questions: false };
+      // Then open the clicked section if it was previously closed
+      newSections[section] = !prev[section];
+      return newSections;
+    });
   };
 
   return (
@@ -130,6 +138,14 @@ export function AppSidebar() {
               <Link href="/mock-exam">
                 <Target />
                 Mock Exam
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/ai-quiz'}>
+              <Link href="/ai-quiz">
+                <Brain />
+                AI Quiz
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -201,15 +217,30 @@ export function AppSidebar() {
               </CollapsibleTrigger>
               <CollapsibleContent className="py-1 pl-6 pr-2">
                 <SidebarMenu>
+                  {/* Main Study Plans link */}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      size="sm"
+                      isActive={pathname === '/study-plans'}
+                      variant="ghost"
+                    >
+                      <Link href="/study-plans">
+                        <ClipboardCheck />
+                        All Study Plans
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  {/* Individual subject study plans */}
                   {civilServiceSubjects.map((subject) => (
                     <SidebarMenuItem key={subject.path}>
                       <SidebarMenuButton
                         asChild
                         size="sm"
-                        isActive={pathname === `/study-plans`}
+                        isActive={pathname === `/study-plans/${subject.path}`}
                         variant="ghost"
                       >
-                        <Link href={`/study-plans`}>
+                        <Link href={`/study-plans/${subject.path}`}>
                           <subject.icon />
                           {subject.name}
                         </Link>
@@ -246,6 +277,21 @@ export function AppSidebar() {
               </CollapsibleTrigger>
               <CollapsibleContent className="py-1 pl-6 pr-2">
                 <SidebarMenu>
+                  {/* Main Lessons link */}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      size="sm"
+                      isActive={pathname === '/lessons'}
+                      variant="ghost"
+                    >
+                      <Link href="/lessons">
+                        <Book />
+                        All Lessons
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  {/* Individual subject links */}
                   {civilServiceSubjects.map((subject) => (
                     <SidebarMenuItem key={subject.path}>
                       <SidebarMenuButton
@@ -323,19 +369,22 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
         
-        <SidebarSeparator />
-        
-        {/* Admin Section */}
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/admin'}>
-              <Link href="/admin">
-                <Settings />
-                Admin Panel
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        {/* Admin Section - Only visible to admins */}
+        {isAdmin && (
+          <>
+            <SidebarSeparator />
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === '/admin'}>
+                  <Link href="/admin">
+                    <Settings />
+                    Admin Panel
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </>
+        )}
       </SidebarContent>
     </>
   );

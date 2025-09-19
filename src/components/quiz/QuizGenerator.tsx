@@ -52,9 +52,24 @@ type QuizFormValues = z.infer<typeof formSchema>;
 interface QuizGeneratorProps {
   onQuizGenerated: (quiz: Quiz) => void;
   initialTopic?: string;
+  aiGenerated?: boolean;
+  initialNumQuestions?: number;
+  initialDifficulty?: 'easy' | 'medium' | 'hard';
+  userContext?: {
+    weakSubjects: string[];
+    averageScore: number;
+    totalQuizzes: number;
+  };
 }
 
-export function QuizGenerator({ onQuizGenerated, initialTopic }: QuizGeneratorProps) {
+export function QuizGenerator({ 
+  onQuizGenerated, 
+  initialTopic, 
+  aiGenerated = false, 
+  initialNumQuestions = 5, 
+  initialDifficulty = 'medium',
+  userContext 
+}: QuizGeneratorProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -62,52 +77,114 @@ export function QuizGenerator({ onQuizGenerated, initialTopic }: QuizGeneratorPr
     resolver: zodResolver(formSchema),
     defaultValues: {
       topic: initialTopic as QuizFormValues['topic'] || 'General Information',
-      numQuestions: 5,
-      difficulty: 'medium',
+      numQuestions: initialNumQuestions,
+      difficulty: initialDifficulty,
     },
   });
 
   async function onSubmit(values: QuizFormValues) {
     setIsLoading(true);
     
-    // Mock quiz generation for static demo
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate loading
-    
-    const mockQuiz = {
-      quiz: Array.from({ length: values.numQuestions }, (_, i) => ({
-        id: `q${i + 1}`,
-        question: `Sample ${values.topic} question ${i + 1} (${values.difficulty} difficulty)`,
-        answers: [
-          `Option A for question ${i + 1}`,
-          `Option B for question ${i + 1}`,
-          `Option C for question ${i + 1}`,
-          `Option D for question ${i + 1}`
-        ],
-        correctAnswer: `Option A for question ${i + 1}`,
-        subject: values.topic,
-        difficulty: values.difficulty,
-        explanation: `This is the explanation for question ${i + 1}`,
-        tags: [values.topic.toLowerCase().replace(/\s+/g, '-')]
-      }))
-    };
-    
-    setIsLoading(false);
-    onQuizGenerated(mockQuiz);
-    
-    toast({
-      title: 'Quiz Generated!',
-      description: `Generated ${values.numQuestions} questions for ${values.topic} (Demo Mode)`,
-    });
+    try {
+      // Use Gemini AI if available and requested
+      if (aiGenerated) {
+        const { generateQuizWithGemini } = await import('@/lib/gemini');
+        
+        const aiRequest = {
+          subject: values.topic,
+          difficulty: values.difficulty,
+          numQuestions: values.numQuestions,
+          userContext,
+          focusAreas: userContext?.weakSubjects || []
+        };
+        
+        console.log('Generating quiz with Gemini AI:', aiRequest);
+        const aiQuizResponse = await generateQuizWithGemini(aiRequest);
+        
+        setIsLoading(false);
+        onQuizGenerated(aiQuizResponse);
+        
+        toast({
+          title: '🤖 AI Quiz Generated!',
+          description: `Created ${values.numQuestions} personalized ${values.topic} questions using Gemini AI`,
+        });
+        return;
+      }
+      
+      // Fallback to mock generation for non-AI requests
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const mockQuiz = {
+        quiz: Array.from({ length: values.numQuestions }, (_, i) => ({
+          id: `q${i + 1}`,
+          question: `Sample ${values.topic} question ${i + 1} (${values.difficulty} difficulty)`,
+          answers: [
+            `Option A for question ${i + 1}`,
+            `Option B for question ${i + 1}`,
+            `Option C for question ${i + 1}`,
+            `Option D for question ${i + 1}`
+          ],
+          correctAnswer: `Option A for question ${i + 1}`,
+          subject: values.topic,
+          difficulty: values.difficulty,
+          explanation: `This is the explanation for question ${i + 1}`,
+          tags: [values.topic.toLowerCase().replace(/\s+/g, '-')]
+        }))
+      };
+      
+      setIsLoading(false);
+      onQuizGenerated(mockQuiz);
+      
+      toast({
+        title: 'Quiz Generated!',
+        description: `Generated ${values.numQuestions} questions for ${values.topic} (Demo Mode)`,
+      });
+    } catch (error) {
+      console.error('Error generating quiz:', error);
+      setIsLoading(false);
+      
+      toast({
+        variant: 'destructive',
+        title: 'Error Generating Quiz',
+        description: 'Failed to generate quiz. Please try again.',
+      });
+    }
   }
 
   return (
-    <Card className="max-w-2xl mx-auto animate-fade-in bg-card/80 backdrop-blur-sm">
+    <Card className={`max-w-2xl mx-auto animate-fade-in ${
+      aiGenerated 
+        ? 'bg-gradient-to-br from-primary/5 via-card/90 to-blue-50/50 border-primary/20' 
+        : 'bg-card/80 backdrop-blur-sm'
+    }`}>
       <CardHeader>
         <CardTitle className="text-3xl font-bold">
-          AI-Generated Quiz: <span className="text-primary">{form.watch('topic')}</span>
+          {aiGenerated ? (
+            <span className="flex items-center gap-2">
+              <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                🧠 AI-Personalized Quiz
+              </span>
+            </span>
+          ) : (
+            <>AI-Generated Quiz: <span className="text-primary">{form.watch('topic')}</span></>
+          )}
         </CardTitle>
         <CardDescription>
-          Select a subject and let our AI generate a practice quiz for you.
+          {aiGenerated ? (
+            <div className="space-y-2">
+              <p>This quiz has been personalized based on your performance analytics.</p>
+              {userContext && (
+                <div className="text-xs bg-primary/10 p-2 rounded-md">
+                  📊 Your stats: {userContext.averageScore}% avg score, {userContext.totalQuizzes} quizzes completed
+                  {userContext.weakSubjects.length > 0 && (
+                    <>, focusing on: {userContext.weakSubjects.slice(0, 2).join(', ')}</>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            'Select a subject and let our AI generate a practice quiz for you.'
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent>

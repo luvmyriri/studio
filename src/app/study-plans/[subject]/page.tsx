@@ -11,9 +11,25 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Book, PencilRuler, CheckCircle, Zap } from 'lucide-react';
+import { Book, PencilRuler, CheckCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { StudyPlanGenerator } from '@/components/study/StudyPlanGenerator';
+import { Button } from '@/components/ui/button';
+
+// Generate static params for all available subjects
+export async function generateStaticParams() {
+  const subjects = [
+    'mathematics',
+    'vocabulary', 
+    'clerical-analysis',
+    'science',
+    'general-information',
+    'philippine-constitution'
+  ];
+  
+  return subjects.map((subject) => ({
+    subject: subject,
+  }));
+}
 
 const studyPlans = {
   mathematics: {
@@ -103,7 +119,7 @@ const studyPlans = {
       },
     ],
   },
-  clerical_analysis: {
+  'clerical-analysis': {
     title: 'Clerical Analysis Study Plan',
     description: 'A 1-week plan to sharpen your clerical skills.',
     weeks: [
@@ -155,7 +171,7 @@ const studyPlans = {
       },
     ],
   },
-  general_information: {
+  'general-information': {
     title: 'General Information Study Plan',
     description: 'A 2-week guide to essential general knowledge.',
     weeks: [
@@ -196,7 +212,7 @@ const studyPlans = {
       },
     ],
   },
-  philippine_constitution: {
+  'philippine-constitution': {
     title: 'Philippine Constitution Study Plan',
     description: 'A 2-week deep dive into the supreme law of the land.',
     weeks: [
@@ -270,70 +286,98 @@ const StepItem = ({
   return <div className="cursor-pointer">{content}</div>;
 };
 
-export default function StudyPlansPage() {
+export default function IndividualStudyPlanPage({
+  params,
+}: {
+  params: { subject: string };
+}) {
+  const plan = studyPlans[params.subject as keyof typeof studyPlans];
+
+  if (!plan) {
+    return (
+      <div className="space-y-8 animate-fade-in">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/study-plans">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to All Study Plans
+            </Link>
+          </Button>
+        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Study Plan Not Found</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>Sorry, we couldn't find the study plan you were looking for.</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tighter">Study Plans</h1>
-        <p className="text-muted-foreground mt-2">
-          Your step-by-step guide to mastering the Civil Service Exam subjects.
-        </p>
+      <div className="flex items-center gap-4">
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/study-plans">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to All Study Plans
+          </Link>
+        </Button>
       </div>
 
-      {/* AI-Powered Study Plan Generator */}
-      <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 via-blue-50/50 to-purple-50/50 dark:from-primary/10 dark:via-blue-950/50 dark:to-purple-950/50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-primary" />
-            AI-Powered Personal Study Planner
-          </CardTitle>
-          <CardDescription>
-            Get a customized study plan based on your goals, schedule, and learning preferences.
-          </CardDescription>
+      <div className="text-center">
+        <h1 className="text-4xl font-bold tracking-tighter">{plan.title}</h1>
+        <p className="text-muted-foreground mt-2">{plan.description}</p>
+      </div>
+
+      <Card className="bg-gradient-to-br from-card/90 to-card/50 border-primary/20 hover:border-primary/30 transition-all duration-300 hover:shadow-lg">
+        <CardHeader className="pb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-2xl bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                {plan.title}
+              </CardTitle>
+              <CardDescription className="mt-2 text-muted-foreground">
+                {plan.description}
+              </CardDescription>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">
+                {plan.weeks.length} {plan.weeks.length === 1 ? 'Week' : 'Weeks'}
+              </span>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
-          <StudyPlanGenerator />
+        <CardContent className="pt-0">
+          <Accordion type="single" collapsible defaultValue="item-0">
+            {plan.weeks.map((week, index) => (
+              <AccordionItem key={index} value={`item-${index}`} className="border-primary/20">
+                <AccordionTrigger className="font-semibold text-lg hover:text-primary transition-colors">
+                  {week.title}
+                </AccordionTrigger>
+                <AccordionContent className="space-y-3 pt-4">
+                  {week.steps.map((step, stepIndex) => (
+                    <StepItem key={stepIndex} step={step} />
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </CardContent>
       </Card>
 
-      <div className="grid gap-8">
-        {Object.values(studyPlans).map((plan, index) => (
-          <Card key={plan.title} className="bg-gradient-to-br from-card/90 to-card/50 border-primary/20 hover:border-primary/30 transition-all duration-300 hover:shadow-lg">
-            <CardHeader className="pb-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-2xl bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-                    {plan.title}
-                  </CardTitle>
-                  <CardDescription className="mt-2 text-muted-foreground">
-                    {plan.description}
-                  </CardDescription>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span className="bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">
-                    {plan.weeks.length} {plan.weeks.length === 1 ? 'Week' : 'Weeks'}
-                  </span>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <Accordion type="single" collapsible defaultValue="item-0">
-                {plan.weeks.map((week, weekIndex) => (
-                  <AccordionItem key={weekIndex} value={`item-${weekIndex}`} className="border-primary/20">
-                    <AccordionTrigger className="font-semibold text-lg hover:text-primary transition-colors">
-                      {week.title}
-                    </AccordionTrigger>
-                    <AccordionContent className="space-y-3 pt-4">
-                      {week.steps.map((step, stepIndex) => (
-                        <StepItem key={stepIndex} step={step} />
-                      ))}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="text-center">
+        <p className="text-sm text-muted-foreground">
+          Need lesson materials for this subject?{' '}
+          <Link
+            href={`/lessons/${params.subject}`}
+            className="text-primary hover:underline"
+          >
+            View {plan.title.replace(' Study Plan', '')} Lessons →
+          </Link>
+        </p>
       </div>
     </div>
   );

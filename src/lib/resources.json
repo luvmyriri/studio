@@ -5,35 +5,83 @@
     "content": [
       {
         "type": "h3",
-        "text": "1. Basic Operations & PEMDAS"
+        "text": "1. Basic Operations & Order of Operations (PEMDAS/BODMAS)"
       },
       {
         "type": "p",
-        "text": "Master addition, subtraction, multiplication, and division. Remember the order of operations: Parentheses, Exponents, Multiplication and Division (from left to right), Addition and Subtraction (from left to right)."
+        "text": "Master addition, subtraction, multiplication, and division. Follow the order of operations: Parentheses/Brackets, Exponents/Orders, Multiplication and Division (left to right), Addition and Subtraction (left to right). Practice with complex expressions like: 2 + 3 × (4 - 1)² ÷ 9."
       },
       {
         "type": "h3",
-        "text": "2. Fractions, Decimals, and Percentages"
+        "text": "2. Number Systems and Properties"
       },
       {
         "type": "p",
-        "text": "Practice converting between these three forms. Understand how to perform basic operations on them. Example: 1/2 = 0.5 = 50%."
+        "text": "Understand different number types: Natural numbers (1,2,3...), Whole numbers (0,1,2,3...), Integers (...-2,-1,0,1,2...), Rational numbers (fractions), Irrational numbers (π, √2). Learn properties: Commutative, Associative, Distributive laws."
       },
       {
         "type": "h3",
-        "text": "3. Word Problems"
+        "text": "3. Fractions, Decimals, and Percentages"
       },
       {
         "type": "p",
-        "text": "Read the problem carefully to identify what is being asked. Translate the words into mathematical equations. Look for keywords like 'sum' (addition), 'difference' (subtraction), 'product' (multiplication), and 'quotient' (division)."
+        "text": "Master conversions: 1/2 = 0.5 = 50%, 3/4 = 0.75 = 75%. Practice operations: adding fractions (find LCD), multiplying (numerator × numerator), dividing (multiply by reciprocal). Solve percentage problems: finding percentage of a number, percentage increase/decrease."
       },
       {
         "type": "h3",
-        "text": "4. Ratio and Proportion"
+        "text": "4. Ratio, Proportion, and Variation"
       },
       {
         "type": "p",
-        "text": "A ratio compares two quantities. A proportion is an equation stating that two ratios are equal. Example: If 3 apples cost ₱45, how much do 5 apples cost? (3/45 = 5/x)."
+        "text": "Ratio compares quantities (3:4 means 3 parts to 4 parts). Proportion: cross-multiplication method (a/b = c/d → ad = bc). Direct variation (y = kx), Inverse variation (xy = k). Solve problems like: If 5 workers finish a job in 8 days, how long for 10 workers?"
+      },
+      {
+        "type": "h3",
+        "text": "5. Algebra Fundamentals"
+      },
+      {
+        "type": "p",
+        "text": "Solve linear equations: 2x + 5 = 15. Handle algebraic expressions: combine like terms (3x + 2x = 5x). Factor simple expressions: x² - 9 = (x+3)(x-3). Understand variables and constants."
+      },
+      {
+        "type": "h3",
+        "text": "6. Geometry Basics"
+      },
+      {
+        "type": "p",
+        "text": "Know basic shapes: triangles, squares, rectangles, circles. Calculate areas: Rectangle = lw, Triangle = ½bh, Circle = πr². Calculate perimeters: Rectangle = 2(l+w), Circle = 2πr. Understand angles: acute (<90°), right (90°), obtuse (>90°)."
+      },
+      {
+        "type": "h3",
+        "text": "7. Statistics and Probability"
+      },
+      {
+        "type": "p",
+        "text": "Calculate mean (average), median (middle value), mode (most frequent). Basic probability: P(event) = favorable outcomes / total outcomes. Understand simple and compound events. Interpret basic charts and graphs."
+      },
+      {
+        "type": "h3",
+        "text": "8. Word Problems and Applications"
+      },
+      {
+        "type": "p",
+        "text": "Age problems, work problems, distance-speed-time problems, mixture problems. Keywords: sum (add), difference (subtract), product (multiply), quotient (divide), 'of' (multiply), 'is' (equals). Practice translating English to mathematical expressions."
+      },
+      {
+        "type": "h3",
+        "text": "9. Number Theory"
+      },
+      {
+        "type": "p",
+        "text": "Prime numbers (2,3,5,7,11...), composite numbers, factors, multiples. Greatest Common Divisor (GCD) and Least Common Multiple (LCM). Divisibility rules: 2 (even), 3 (sum of digits divisible by 3), 5 (ends in 0 or 5), etc."
+      },
+      {
+        "type": "h3",
+        "text": "10. Measurement and Units"
+      },
+      {
+        "type": "p",
+        "text": "Metric system: length (mm, cm, m, km), mass (g, kg), volume (ml, L). Time conversions: seconds, minutes, hours, days. Money problems with Philippine peso. Temperature: Celsius and Fahrenheit conversions."
       }
     ]
   },
@@ -42,27 +90,91 @@
     "content": [
       {
         "type": "h3",
-        "text": "1. Synonyms and Antonyms"
+        "text": "1. English Vocabulary Building"
       },
       {
         "type": "p",
-        "text": "Synonyms are words with similar meanings (e.g., happy/joyful). Antonyms are words with opposite meanings (e.g., hot/cold). Expand your vocabulary by reading and using a thesaurus."
+        "text": "Build vocabulary through word families, prefixes (un-, pre-, re-), suffixes (-tion, -ly, -ment). Learn high-frequency words for professional communication. Study word roots: Greek/Latin origins (bio = life, geo = earth, photo = light)."
       },
       {
         "type": "h3",
-        "text": "2. Context Clues"
+        "text": "2. Synonyms and Antonyms"
       },
       {
         "type": "p",
-        "text": "Use the surrounding words and sentences to figure out the meaning of an unfamiliar word. This is a crucial skill for reading comprehension."
+        "text": "Synonyms (similar meanings): happy/joyful/elated, big/large/enormous, smart/intelligent/brilliant. Antonyms (opposite meanings): hot/cold, light/dark, accept/reject, increase/decrease. Practice with gradations: good → better → best."
       },
       {
         "type": "h3",
-        "text": "3. Salawikain at Sawikain (Tagalog)"
+        "text": "3. Context Clues and Reading Comprehension"
       },
       {
         "type": "p",
-        "text": "Salawikain (proverbs) are traditional sayings that express a perceived truth. Sawikain (idioms) are phrases where the meaning isn't literal. Example (Sawikain): 'Balat-sibuyas' means easily offended, not literally 'onion-skinned'."
+        "text": "Definition clues: 'A pediatrician, a doctor who treats children...' Example clues: 'Herbivores such as cows, horses, and sheep...' Contrast clues: 'Unlike his gregarious brother, Tom was quite shy.' Inference clues: Use logic and prior knowledge."
+      },
+      {
+        "type": "h3",
+        "text": "4. Grammar and Parts of Speech"
+      },
+      {
+        "type": "p",
+        "text": "Nouns (person/place/thing), Verbs (action/being), Adjectives (describe nouns), Adverbs (describe verbs/adjectives). Subject-verb agreement: 'The dog runs' vs 'The dogs run'. Proper use of pronouns, prepositions, conjunctions."
+      },
+      {
+        "type": "h3",
+        "text": "5. Idiomatic Expressions and Figurative Language"
+      },
+      {
+        "type": "p",
+        "text": "Common idioms: 'Break a leg' (good luck), 'It's raining cats and dogs' (heavy rain), 'Piece of cake' (easy task). Metaphors, similes, personification. Understanding figurative vs literal language in professional contexts."
+      },
+      {
+        "type": "h3",
+        "text": "6. Salawikain (Filipino Proverbs)"
+      },
+      {
+        "type": "p",
+        "text": "Traditional wisdom: 'Ang taong nagigipit, sa patalim kumakapit' (desperate people resort to dangerous means), 'Habang maikli ang kumot, matutong mamaluktot' (learn to adjust with limited resources), 'Nasa Diyos ang awa, nasa tao ang gawa' (God helps those who help themselves)."
+      },
+      {
+        "type": "h3",
+        "text": "7. Sawikain (Filipino Idioms)"
+      },
+      {
+        "type": "p",
+        "text": "Colorful expressions: 'Balat-sibuyas' (sensitive/easily hurt), 'Nagsusunog ng kilay' (studying hard), 'Itinali sa tali ng sampaguita' (bound by love/marriage), 'Nanghihingi ng tubig sa dagat' (asking the obvious), 'Nakakain ng asin' (experienced)."
+      },
+      {
+        "type": "h3",
+        "text": "8. Filipino Grammar Fundamentals"
+      },
+      {
+        "type": "p",
+        "text": "Sentence structure: Predicate-Subject (PS) vs Subject-Predicate (SP). Markers: ang/si (subject), ng/ni (object), sa/kay (indirect). Verb aspects: nag- (completed), nag-_-an (simultaneous), mag- (future). Adjective placement and agreement."
+      },
+      {
+        "type": "h3",
+        "text": "9. Professional and Formal Language"
+      },
+      {
+        "type": "p",
+        "text": "Business terminology: correspondence, memorandum, agenda, protocol, liaison. Government terms: ordinance, resolution, jurisdiction, bureaucracy, constituent. Academic language: analyze, synthesize, evaluate, hypothesis, methodology."
+      },
+      {
+        "type": "h3",
+        "text": "10. Common Language Errors and Corrections"
+      },
+      {
+        "type": "p",
+        "text": "English errors: 'between you and I' (should be 'between you and me'), 'could of' (should be 'could have'), 'its' vs 'it's'. Filipino errors: 'nandun' (should be 'nandoon'), mixing Tagalog and English inappropriately in formal writing."
+      },
+      {
+        "type": "h3",
+        "text": "11. Reading Comprehension Strategies"
+      },
+      {
+        "type": "p",
+        "text": "Active reading: preview, question, read, summarize, review. Identify main ideas vs supporting details. Understand author's purpose: inform, persuade, entertain. Recognize text structures: chronological, compare/contrast, cause/effect, problem/solution."
       }
     ]
   },
@@ -71,27 +183,83 @@
     "content": [
       {
         "type": "h3",
-        "text": "1. Alphabetical Filing"
+        "text": "1. Alphabetical Filing Systems"
       },
       {
         "type": "p",
-        "text": "Rules can be complex. Remember 'Nothing before something'. Names like 'De La Cruz' are often treated as one unit. Practice with different name formats."
+        "text": "Master filing rules: Nothing before something (A-1 before Ab), ignore articles (The, A, An), surnames first (Cruz, Juan dela), prefixes matter (Dela Cruz as one unit vs De La Cruz). Practice filing: McArthur vs MacArthur, St. John vs Saint John, O'Connor vs Oconnor."
       },
       {
         "type": "h3",
-        "text": "2. Spelling and Grammar"
+        "text": "2. Numerical Filing and Coding"
       },
       {
         "type": "p",
-        "text": "Review common spelling errors and basic grammar rules (subject-verb agreement, correct pronoun usage, etc.)."
+        "text": "Dewey Decimal System basics, chronological filing (dates), numerical sequences. Code systems: color coding, alphanumeric codes (A001, B002), terminal digit filing. Understand ascending/descending order, zero placement (001, 010, 100)."
       },
       {
         "type": "h3",
-        "text": "3. Following Instructions"
+        "text": "3. Proofreading and Error Detection"
       },
       {
         "type": "p",
-        "text": "These questions test your ability to read carefully and execute tasks as described. Don't rush. Read every word of the instructions."
+        "text": "Spelling errors: commonly misspelled words (receive, separate, definitely). Grammar errors: subject-verb disagreement, pronoun-antecedent issues. Punctuation: comma splices, apostrophe usage. Number errors: transposition (123 vs 132), addition mistakes."
+      },
+      {
+        "type": "h3",
+        "text": "4. Following Detailed Instructions"
+      },
+      {
+        "type": "p",
+        "text": "Multi-step procedures: read completely before starting, follow exact sequence, note exceptions and special cases. Attention to detail: specific formats, required fields, conditional instructions (if-then statements). Time management in instruction-following tasks."
+      },
+      {
+        "type": "h3",
+        "text": "5. Data Analysis and Comparison"
+      },
+      {
+        "type": "p",
+        "text": "Compare lists for differences, identify duplicates, spot missing entries. Table analysis: find patterns, calculate totals, identify highest/lowest values. Graph interpretation: bar charts, pie charts, line graphs. Percentage calculations and ratios."
+      },
+      {
+        "type": "h3",
+        "text": "6. Office Procedures and Forms"
+      },
+      {
+        "type": "p",
+        "text": "Business correspondence: proper letter format, memo structure, email etiquette. Form completion: attention to required fields, date formats (MM/DD/YYYY vs DD/MM/YYYY), signature requirements. Filing systems: chronological, alphabetical, subject-based."
+      },
+      {
+        "type": "h3",
+        "text": "7. Record Keeping and Documentation"
+      },
+      {
+        "type": "p",
+        "text": "Maintain accurate logs, track document versions, update databases. Archive procedures: retention schedules, disposal protocols. Data entry accuracy: double-checking entries, verification procedures. Confidentiality and security protocols."
+      },
+      {
+        "type": "h3",
+        "text": "8. Communication Skills"
+      },
+      {
+        "type": "p",
+        "text": "Professional phone etiquette: proper greeting, clear speaking, message taking. Written communication: clear, concise language, proper grammar. Interpersonal skills: courtesy, patience, active listening. Dealing with difficult situations professionally."
+      },
+      {
+        "type": "h3",
+        "text": "9. Time Management and Prioritization"
+      },
+      {
+        "type": "p",
+        "text": "Task prioritization: urgent vs important, deadline management. Scheduling: calendar management, appointment setting, time blocking. Efficiency techniques: batch processing, automation where appropriate. Handling interruptions and multitasking."
+      },
+      {
+        "type": "h3",
+        "text": "10. Problem-Solving and Decision Making"
+      },
+      {
+        "type": "p",
+        "text": "Analytical thinking: break down complex problems, identify root causes. Decision-making process: gather information, consider alternatives, evaluate consequences. Resource management: optimal use of time, materials, personnel. Quality control and improvement."
       }
     ]
   },
@@ -100,27 +268,91 @@
     "content": [
       {
         "type": "h3",
-        "text": "1. Earth Science"
+        "text": "1. Biology - Cell Structure and Function"
       },
       {
         "type": "p",
-        "text": "Basic knowledge of the solar system, weather patterns, and the layers of the Earth."
+        "text": "Cell parts: nucleus (control center), mitochondria (powerhouse), chloroplasts (photosynthesis in plants), cell membrane (controls entry/exit). Differences: prokaryotes (no nucleus) vs eukaryotes (has nucleus). Cell division: mitosis (body cells) vs meiosis (sex cells)."
       },
       {
         "type": "h3",
-        "text": "2. Biology"
+        "text": "2. Biology - Human Body Systems"
       },
       {
         "type": "p",
-        "text": "Understand basic cell structure ('powerhouse of the cell' is the mitochondrion), photosynthesis, and the human body's organ systems."
+        "text": "Circulatory: heart, blood vessels, blood transport. Respiratory: lungs, breathing, gas exchange. Digestive: mouth to anus, nutrient breakdown. Nervous: brain, spinal cord, nerves. Skeletal: bones, support, protection. Muscular: movement, cardiac/smooth/skeletal muscles."
       },
       {
         "type": "h3",
-        "text": "3. Chemistry"
+        "text": "3. Biology - Genetics and Evolution"
       },
       {
         "type": "p",
-        "text": "Know the basic states of matter (solid, liquid, gas) and the difference between physical and chemical changes."
+        "text": "DNA structure: double helix, genes, chromosomes. Heredity: dominant vs recessive traits, Mendel's laws. Evolution: natural selection, adaptation, survival of the fittest. Classification: kingdom, phylum, class, order, family, genus, species."
+      },
+      {
+        "type": "h3",
+        "text": "4. Chemistry - Matter and Atomic Structure"
+      },
+      {
+        "type": "p",
+        "text": "States of matter: solid (fixed shape/volume), liquid (fixed volume), gas (neither fixed), plasma. Atomic structure: protons (+), electrons (-), neutrons (neutral). Periodic table: groups (columns) and periods (rows). Elements vs compounds vs mixtures."
+      },
+      {
+        "type": "h3",
+        "text": "5. Chemistry - Chemical Reactions and Compounds"
+      },
+      {
+        "type": "p",
+        "text": "Physical vs chemical changes: melting (physical) vs burning (chemical). Common compounds: H2O (water), CO2 (carbon dioxide), NaCl (salt), O2 (oxygen). Acids vs bases: pH scale (0-14), acids <7, bases >7, neutral = 7."
+      },
+      {
+        "type": "h3",
+        "text": "6. Physics - Force, Motion, and Energy"
+      },
+      {
+        "type": "p",
+        "text": "Newton's Laws: object at rest stays at rest, F=ma, action-reaction. Types of energy: kinetic (motion), potential (stored), thermal (heat), electrical. Simple machines: lever, pulley, inclined plane, wedge, screw, wheel and axle."
+      },
+      {
+        "type": "h3",
+        "text": "7. Earth Science - Solar System and Astronomy"
+      },
+      {
+        "type": "p",
+        "text": "Solar system: 8 planets (Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune). Moon phases: new, waxing, full, waning. Earth's rotation (day/night) vs revolution (seasons). Stars, galaxies, light years."
+      },
+      {
+        "type": "h3",
+        "text": "8. Earth Science - Weather and Climate"
+      },
+      {
+        "type": "p",
+        "text": "Weather vs climate: weather is daily, climate is long-term patterns. Water cycle: evaporation, condensation, precipitation. Cloud types: cumulus (puffy), stratus (layered), cirrus (wispy). Philippine weather: wet/dry seasons, typhoons."
+      },
+      {
+        "type": "h3",
+        "text": "9. Earth Science - Geology and Earth's Structure"
+      },
+      {
+        "type": "p",
+        "text": "Earth's layers: crust (outer), mantle (middle), core (center). Plate tectonics: continental drift, earthquakes, volcanoes. Rock cycle: igneous (cooled magma), sedimentary (compressed layers), metamorphic (heat/pressure changed). Philippines: Ring of Fire, volcanic activity."
+      },
+      {
+        "type": "h3",
+        "text": "10. Environmental Science"
+      },
+      {
+        "type": "p",
+        "text": "Ecosystems: producers (plants), consumers (animals), decomposers (bacteria/fungi). Food chains and webs: energy flow from sun to plants to animals. Environmental issues: pollution, deforestation, climate change, biodiversity loss. Conservation: recycling, renewable energy."
+      },
+      {
+        "type": "h3",
+        "text": "11. Health and Nutrition"
+      },
+      {
+        "type": "p",
+        "text": "Nutrients: carbohydrates (energy), proteins (building), fats (storage), vitamins (regulation), minerals (structure), water. Disease prevention: hygiene, vaccination, exercise. Common diseases: communicable (spread) vs non-communicable (lifestyle)."
       }
     ]
   },
@@ -129,27 +361,99 @@
     "content": [
       {
         "type": "h3",
-        "text": "1. Philippine History and Heroes"
+        "text": "1. Philippine History - Spanish Colonial Period (1565-1898)"
       },
       {
         "type": "p",
-        "text": "Know key events like the Philippine Revolution and key figures like Jose Rizal, Andres Bonifacio, and Emilio Aguinaldo."
+        "text": "Miguel López de Legazpi (1565), first Spanish settlement in Cebu. Encomienda system, tribute, polo (forced labor). Galleon Trade (1565-1815): Manila-Acapulco route. Religious orders: Augustinians, Franciscans, Dominicans, Jesuits. Key revolts: Diego Silang (1763), Francisco Dagohoy (1744-1829)."
       },
       {
         "type": "h3",
-        "text": "2. Code of Conduct and Ethical Standards (R.A. 6713)"
+        "text": "2. Philippine Revolution and Heroes (1896-1898)"
       },
       {
         "type": "p",
-        "text": "Understand the norms of behavior for public officials and employees."
+        "text": "José Rizal: Noli Me Tangere (1887), El Filibusterismo (1891), executed Dec 30, 1896. Andrés Bonifacio: founded Katipunan (1892), Cry of Pugad Lawin (Aug 23, 1896). Emilio Aguinaldo: Tejeros Convention, Philippine independence June 12, 1898. Other heroes: Apolinario Mabini, Antonio Luna, Marcelo H. del Pilar."
       },
       {
         "type": "h3",
-        "text": "3. Environmental Issues"
+        "text": "3. American Period (1898-1946)"
       },
       {
         "type": "p",
-        "text": "Be aware of major environmental laws and concepts in the Philippines."
+        "text": "Treaty of Paris (1898): Spain ceded Philippines to US for $20 million. Philippine-American War (1899-1902). Sedition Law, Reconcentration Policy. Commonwealth Period (1935-1946): Manuel L. Quezon as president. Japanese Occupation (1942-1945): Death March, guerrilla warfare, MacArthur's return."
+      },
+      {
+        "type": "h3",
+        "text": "4. Philippine Independence and Modern History"
+      },
+      {
+        "type": "p",
+        "text": "Independence: July 4, 1946 (changed to June 12 in 1962). Presidents: Roxas, Quirino, Magsaysay, Garcia, Macapagal. Martial Law (1972-1981): Ferdinand Marcos. EDSA Revolution (1986): People Power, Corazon Aquino. Recent presidents: Ramos, Estrada, Arroyo, Aquino III, Duterte, Marcos Jr."
+      },
+      {
+        "type": "h3",
+        "text": "5. Philippine Government Structure"
+      },
+      {
+        "type": "p",
+        "text": "Three branches: Executive (President, 6-year term), Legislative (Senate 24 members, House of Representatives), Judicial (Supreme Court, lower courts). Local Government: provinces, cities, municipalities, barangays. Constitutional bodies: COMELEC, COA, CSC, CHR, Ombudsman."
+      },
+      {
+        "type": "h3",
+        "text": "6. Geography and Natural Resources"
+      },
+      {
+        "type": "p",
+        "text": "Archipelago: 7,641 islands, 3 main groups (Luzon, Visayas, Mindanao). Highest peak: Mt. Apo (2,954m). Longest river: Cagayan River. Major bodies of water: Manila Bay, Laguna de Bay, Taal Lake. Natural resources: rice, coconut, sugarcane, nickel, copper, gold. Climate: tropical, wet/dry seasons."
+      },
+      {
+        "type": "h3",
+        "text": "7. Arts, Culture, and Literature"
+      },
+      {
+        "type": "p",
+        "text": "National symbols: sampaguita (flower), narra (tree), mango (fruit), carabao (animal). Literature: Florante at Laura (Francisco Balagtas), Ninay (Pedro Paterno), Noli/Fili (José Rizal). Folk dances: tinikling, cariñosa, singkil. Music: kundiman, harana. Arts: traditional weaving, pottery, wood carving."
+      },
+      {
+        "type": "h3",
+        "text": "8. Code of Conduct and Ethical Standards (R.A. 6713)"
+      },
+      {
+        "type": "p",
+        "text": "Eight norms of conduct: commitment to public interest, professionalism, justness and sincerity, political neutrality, responsiveness to the public, nationalism and patriotism, commitment to democracy, simple living. Prohibited acts: gifts, conflicts of interest, partisan political activities."
+      },
+      {
+        "type": "h3",
+        "text": "9. Important Laws and Republic Acts"
+      },
+      {
+        "type": "p",
+        "text": "R.A. 1425: Rizal Law (teaching Rizal's works). R.A. 8491: Flag and Heraldic Code. R.A. 6713: Code of Conduct. R.A. 9262: Anti-Violence Against Women and Children. R.A. 10175: Cybercrime Prevention Act. R.A. 9003: Ecological Solid Waste Management. R.A. 7610: Child Protection Act."
+      },
+      {
+        "type": "h3",
+        "text": "10. Environmental Laws and Issues"
+      },
+      {
+        "type": "p",
+        "text": "Clean Air Act (R.A. 8749), Clean Water Act (R.A. 9275), Mining Act (R.A. 7942). Environmental issues: deforestation, mining, climate change, pollution. Protected areas: Mayon Volcano, Banaue Rice Terraces, Tubbataha Reefs. DENR role in environmental protection. Sustainable development goals."
+      },
+      {
+        "type": "h3",
+        "text": "11. Current Events and Global Affairs"
+      },
+      {
+        "type": "p",
+        "text": "ASEAN membership (1967), relations with China/US/Japan. West Philippine Sea dispute. OFW concerns and remittances. COVID-19 pandemic response. UN Sustainable Development Goals. Climate change agreements. Regional cooperation: APEC, East Asia Summit."
+      },
+      {
+        "type": "h3",
+        "text": "12. Science and Technology"
+      },
+      {
+        "type": "p",
+        "text": "DOST programs and initiatives. Filipino inventions: karaoke (Roberto del Rosario), lunar rover (Eduardo San Juan), fluorescent lamp (Agapito Flores - disputed). Space program: Diwata microsatellites. Internet and digital transformation. Research and development priorities."
       }
     ]
   },
@@ -158,35 +462,107 @@
     "content": [
       {
         "type": "h3",
-        "text": "1. Preamble & National Territory"
+        "text": "1. Preamble and Fundamental Principles"
       },
       {
         "type": "p",
-        "text": "Understand the introduction to the Constitution and the scope of the Philippine territory."
+        "text": "'We, the sovereign Filipino people...' - establishes popular sovereignty. Key principles: democratic and republican state, separation of church and state, social justice, civilian supremacy, rule of law. The Constitution is the supreme law; any law inconsistent with it is void."
       },
       {
         "type": "h3",
-        "text": "2. Bill of Rights (Article III)"
+        "text": "2. National Territory (Article I)"
       },
       {
         "type": "p",
-        "text": "This is a critical section. Familiarize yourself with the fundamental rights guaranteed to every Filipino citizen, such as freedom of speech, due process, and rights of the accused."
+        "text": "Philippine archipelago: all islands and waters embraced therein. Territorial sea: 12 nautical miles. Exclusive Economic Zone: 200 nautical miles. Continental shelf, airspace, and submarine areas. Archipelagic doctrine recognized in international law."
       },
       {
         "type": "h3",
-        "text": "3. Three Branches of Government"
+        "text": "3. Declaration of Principles and State Policies (Article II)"
       },
       {
         "type": "p",
-        "text": "Know the roles and powers of the Legislative (Congress), Executive (President), and Judicial (Supreme Court and lower courts) branches. Understand the concept of checks and balances."
+        "text": "Sovereignty resides in the people. Philippines renounces war as instrument of national policy. Civilian authority supreme over military. Separation of church and state. Promote social justice, protect environment, value dignity of human person, strengthen family as basic social institution."
       },
       {
         "type": "h3",
-        "text": "4. Citizenship"
+        "text": "4. Bill of Rights (Article III) - Civil and Political Rights"
       },
       {
         "type": "p",
-        "text": "Understand who are considered citizens of the Philippines (jus sanguinis vs. jus soli)."
+        "text": "Section 1: Due process and equal protection. Section 4: Freedom of speech, expression, press, assembly, petition. Section 5: Freedom of religion. Section 6: Liberty of abode and travel. Section 7: Right to information. Section 12-22: Rights of accused persons. These rights are self-executing and immediately enforceable."
+      },
+      {
+        "type": "h3",
+        "text": "5. Citizenship (Article IV)"
+      },
+      {
+        "type": "p",
+        "text": "Natural-born citizens: jus sanguinis (by blood) - those whose fathers/mothers are Filipino citizens. Naturalized citizens: foreigners who acquire Philippine citizenship through legal process. Dual citizenship allowed (R.A. 9225). Loss of citizenship: naturalization in foreign country, oath of allegiance to foreign state."
+      },
+      {
+        "type": "h3",
+        "text": "6. Legislative Department (Article VI)"
+      },
+      {
+        "type": "p",
+        "text": "Congress: Senate (24 members, 6-year term) and House of Representatives (maximum 250, 3-year term). Powers: taxation, appropriation, commerce regulation, war declaration, impeachment. Budget preparation by Executive, but Congress has 'power of the purse'. Sessions: regular (4th Monday of July) and special."
+      },
+      {
+        "type": "h3",
+        "text": "7. Executive Department (Article VII)"
+      },
+      {
+        "type": "p",
+        "text": "President: Chief Executive, 6-year term, no re-election. Powers: execute laws, commander-in-chief, appoint officials, grant pardons, conduct foreign relations. Vice President: 6-year term, may hold cabinet position. Presidential succession: VP, Senate President, House Speaker."
+      },
+      {
+        "type": "h3",
+        "text": "8. Judicial Department (Article VIII)"
+      },
+      {
+        "type": "p",
+        "text": "Judicial power vested in Supreme Court and lower courts. SC: 15 members, Chief Justice + 14 Associate Justices. Powers: judicial review, rule-making, administrative supervision. Lower courts: Court of Appeals, Regional Trial Courts, Municipal Trial Courts. Independence: security of tenure, fiscal autonomy."
+      },
+      {
+        "type": "h3",
+        "text": "9. Constitutional Commissions (Article IX)"
+      },
+      {
+        "type": "p",
+        "text": "Three independent commissions: Civil Service Commission (CSC) - merit system, career service; Commission on Elections (COMELEC) - elections, political parties; Commission on Audit (COA) - government funds, expenditures. Commissioners: 7-year term, no reappointment."
+      },
+      {
+        "type": "h3",
+        "text": "10. Local Government (Article X)"
+      },
+      {
+        "type": "p",
+        "text": "Autonomous regions, provinces, cities, municipalities, barangays. Local autonomy: power to create revenue sources, enact ordinances. Internal Revenue Allotment (IRA) from national government. Local officials elected for 3-year terms (maximum 3 consecutive terms). Recall and initiative provisions."
+      },
+      {
+        "type": "h3",
+        "text": "11. Accountability of Public Officers (Article XI)"
+      },
+      {
+        "type": "p",
+        "text": "Public office is public trust. Impeachable officials: President, VP, SC Justices, Constitutional Commission members, Ombudsman. Impeachment grounds: culpable violation of constitution, treason, bribery, graft and corruption, high crimes. Ombudsman: 7-year term, investigate government officials."
+      },
+      {
+        "type": "h3",
+        "text": "12. National Economy and Patrimony (Article XII)"
+      },
+      {
+        "type": "p",
+        "text": "Economic nationalism: Filipino First Policy. Natural resources owned by the state. Foreign investment limitations: 40% maximum in public utilities, advertising, mass media. Land ownership limited to Filipino citizens (or corporations 60% Filipino-owned). Monopolies prohibited except when public interest requires."
+      },
+      {
+        "type": "h3",
+        "text": "13. Constitutional Amendment and Revision (Article XVII)"
+      },
+      {
+        "type": "p",
+        "text": "Amendment: specific changes to particular provisions. Revision: substantial change to entire constitution. Methods: Constitutional Convention, Constituent Assembly, People's Initiative. Ratification by majority vote in plebiscite. No amendment within 5 years after ratification, or within 2 years of holding plebiscite."
       }
     ]
   }

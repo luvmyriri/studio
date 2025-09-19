@@ -13,14 +13,18 @@ function QuizFlowContent() {
   const searchParams = useSearchParams();
   const initialTopic = searchParams.get('topic');
   const initialModeParam = searchParams.get('mode');
+  const aiGenerated = searchParams.get('aiGenerated');
+  const numQuestions = searchParams.get('numQuestions');
+  const difficulty = searchParams.get('difficulty');
+  const userContext = searchParams.get('userContext');
 
   // By combining the mode and topic into a key, we can force a re-render
   // when the user clicks a different topic from the sidebar.
-  const componentKey = `${initialModeParam}-${initialTopic}`;
+  const componentKey = `${initialModeParam}-${initialTopic}-${aiGenerated}`;
 
   const getInitialMode = () => {
     if (initialModeParam === 'mock') return 'mock';
-    if (initialModeParam === 'ai' || initialTopic) return 'ai';
+    if (initialModeParam === 'ai' || initialTopic || aiGenerated === 'true') return 'ai';
     return 'selector';
   };
 
@@ -84,6 +88,10 @@ function QuizFlowContent() {
         key={componentKey}
         onQuizGenerated={handleQuizGenerated}
         initialTopic={initialTopic || undefined}
+        aiGenerated={aiGenerated === 'true'}
+        initialNumQuestions={numQuestions ? parseInt(numQuestions) : undefined}
+        initialDifficulty={difficulty as 'easy' | 'medium' | 'hard' | undefined}
+        userContext={userContext ? JSON.parse(userContext) : undefined}
       />
     );
   }

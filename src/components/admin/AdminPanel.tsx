@@ -71,6 +71,7 @@ import {
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import type { Question, User, QuizAttempt } from '@/lib/types';
+import { AdminUserManager } from './AdminUserManager';
 
 // Sample admin data
 const sampleQuestions: (Question & { status: 'active' | 'draft' | 'archived', createdBy: string, lastModified: Date })[] = [
@@ -296,20 +297,6 @@ export function AdminPanel() {
     }
   };
 
-  // Check if current user is admin (in real app, this would be from auth context/database)
-  const isAdmin = currentUser?.email?.includes('admin') || true; // For demo purposes
-
-  if (!isAdmin) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Card className="p-8 text-center">
-          <Shield className="w-16 h-16 mx-auto text-red-500 mb-4" />
-          <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
-          <p className="text-muted-foreground">You don't have permission to access the admin panel.</p>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -323,7 +310,7 @@ export function AdminPanel() {
 
       {/* Main Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4" />
             Overview
@@ -335,6 +322,10 @@ export function AdminPanel() {
           <TabsTrigger value="users" className="flex items-center gap-2">
             <Users className="w-4 h-4" />
             Users
+          </TabsTrigger>
+          <TabsTrigger value="admins" className="flex items-center gap-2">
+            <Shield className="w-4 h-4" />
+            Admins
           </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings className="w-4 h-4" />
@@ -843,6 +834,11 @@ export function AdminPanel() {
               </Table>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Admin Management */}
+        <TabsContent value="admins" className="space-y-6">
+          <AdminUserManager />
         </TabsContent>
 
         {/* Settings */}
