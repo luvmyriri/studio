@@ -1,9 +1,11 @@
 import { BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export function Header() {
   return (
-    <header className="py-4 px-6 border-b border-border bg-transparent">
+    <header className="py-4 px-6 border-b border-border bg-transparent flex items-center gap-4">
+      <SidebarTrigger className="md:hidden" />
       <div className="container mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <BrainCircuit className="w-8 h-8 text-primary group-hover:animate-pulse" />

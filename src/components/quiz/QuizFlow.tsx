@@ -6,13 +6,24 @@ import { QuizGenerator } from './QuizGenerator';
 import { Quiz } from './Quiz';
 import { QuizResults } from './QuizResults';
 import { QuizModeSelector } from './QuizModeSelector';
+import { useSearchParams } from 'next/navigation';
 
 export function QuizFlow() {
+  const searchParams = useSearchParams();
+  const initialTopic = searchParams.get('topic');
+  
+  const getInitialMode = () => {
+    if (initialTopic) return 'ai';
+    return 'selector';
+  }
+
   const [quiz, setQuiz] = useState<QuizType | null>(null);
   const [results, setResults] = useState<{ score: number; total: number } | null>(
     null
   );
-  const [mode, setMode] = useState<'selector' | 'ai' | 'mock'>('selector');
+  const [mode, setMode] = useState<'selector' | 'ai' | 'mock'>(getInitialMode());
+  const [key, setKey] = useState(Date.now());
+
 
   const handleQuizGenerated = (generatedQuiz: QuizType) => {
     setQuiz(generatedQuiz);
@@ -28,11 +39,20 @@ export function QuizFlow() {
     setQuiz(null);
     setResults(null);
     setMode('selector');
+    window.history.pushState(null, '', '/');
+    setKey(Date.now());
   };
+  
+  const handleSetMode = (newMode: 'ai' | 'mock') => {
+    setMode(newMode);
+    setKey(Date.now());
+  }
+
 
   if (results) {
     return (
       <QuizResults
+        key={key}
         score={results.score}
         total={results.total}
         onRestart={handleRestart}
@@ -41,16 +61,22 @@ export function QuizFlow() {
   }
 
   if (quiz) {
-    return <Quiz quiz={quiz} onFinish={handleQuizFinished} />;
+    return <Quiz key={key} quiz={quiz} onFinish={handleQuizFinished} />;
   }
 
   if (mode === 'selector') {
-    return <QuizModeSelector setMode={setMode} onQuizGenerated={handleQuizGenerated} />;
+    return <QuizModeSelector key={key} setMode={handleSetMode} onQuizGenerated={handleQuizGenerated} />;
   }
 
   if (mode === 'ai') {
-    return <QuizGenerator onQuizGenerated={handleQuizGenerated} />;
+    return <QuizGenerator key={key} onQuizGenerated={handleQuizGenerated} initialTopic={initialTopic || undefined}/>;
+  }
+  
+  // This will handle the mock quiz mode
+  if (mode === 'mock') {
+     return <QuizModeSelector key={key} setMode={handleSetMode} onQuizGenerated={handleQuizGenerated} />;
   }
 
-  return <QuizGenerator onQuizGenerated={handleQuizGenerated} />;
+
+  return <QuizGenerator key={key} onQuizGenerated={handleQuizGenerated} />;
 }

@@ -50,16 +50,17 @@ type QuizFormValues = z.infer<typeof formSchema>;
 
 interface QuizGeneratorProps {
   onQuizGenerated: (quiz: Quiz) => void;
+  initialTopic?: string;
 }
 
-export function QuizGenerator({ onQuizGenerated }: QuizGeneratorProps) {
+export function QuizGenerator({ onQuizGenerated, initialTopic }: QuizGeneratorProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<QuizFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      topic: 'General Information',
+      topic: initialTopic as QuizFormValues['topic'] || 'General Information',
       numQuestions: 5,
       difficulty: 'medium',
     },
