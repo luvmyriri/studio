@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Book, PencilRuler } from 'lucide-react';
+import { Book, PencilRuler, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
 const studyPlans = {
