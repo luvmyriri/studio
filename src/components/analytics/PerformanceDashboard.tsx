@@ -150,8 +150,8 @@ export function PerformanceDashboard() {
               Start taking quizzes and exams to see your performance analytics here. 
               Your progress will be tracked automatically.
             </p>
-            <Button onClick={() => window.location.href = '/quiz'} className="mr-2">
-              Take Your First Quiz
+            <Button onClick={() => window.location.href = '/ai-quiz'} className="mr-2">
+              Start AI Quiz
             </Button>
             <Button variant="outline" onClick={() => window.location.href = '/mock-exam'}>
               Try Mock Exam

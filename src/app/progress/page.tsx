@@ -77,9 +77,9 @@ export default function ProgressPage() {
               Take quizzes and exams to start tracking your performance and progress. 
               We'll show your detailed statistics here.
             </p>
-            <Button onClick={() => window.location.href = '/quiz'} className="mr-2">
+            <Button onClick={() => window.location.href = '/ai-quiz'} className="mr-2">
               <BookOpen className="w-4 h-4 mr-2" />
-              Take Your First Quiz
+              Start AI Quiz
             </Button>
             <Button variant="outline" onClick={() => window.location.href = '/mock-exam'}>
               <Brain className="w-4 h-4 mr-2" />

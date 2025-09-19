@@ -363,9 +363,9 @@ export function GamificationSystem() {
               Take quizzes and complete challenges to unlock achievements, gain experience, and level up! 
               Your first achievement is just one quiz away.
             </p>
-            <Button onClick={() => window.location.href = '/quiz'} className="mr-2">
+            <Button onClick={() => window.location.href = '/ai-quiz'} className="mr-2">
               <BookOpen className="w-4 h-4 mr-2" />
-              Take Your First Quiz
+              Start AI Quiz
             </Button>
             <Button variant="outline" onClick={() => window.location.href = '/mock-exam'}>
               <Brain className="w-4 h-4 mr-2" />

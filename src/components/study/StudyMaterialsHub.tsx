@@ -95,7 +95,7 @@ const sampleLessons: StudyLesson[] = [
         id: 'r5',
         type: 'quiz',
         title: 'Vocabulary Quiz',
-        url: '/quiz/vocabulary-government',
+        url: '/questions?subject=Vocabulary%20(English%20and%20Tagalog)&mode=custom',
         description: 'Test your knowledge of government terms'
       }
     ]
