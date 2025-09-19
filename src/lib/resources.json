@@ -66,7 +66,7 @@
       }
     ]
   },
-  "clerical-analysis": {
+  "clerical_analysis": {
     "title": "Clerical Analysis Reviewer",
     "content": [
       {
@@ -124,20 +124,12 @@
       }
     ]
   },
-  "general-information": {
+  "general_information": {
     "title": "General Information Reviewer",
     "content": [
       {
         "type": "h3",
-        "text": "1. Philippine Constitution"
-      },
-      {
-        "type": "p",
-        "text": "Familiarize yourself with the preamble, the three branches of government (Executive, Legislative, Judicial), and basic rights of citizens."
-      },
-      {
-        "type": "h3",
-        "text": "2. Philippine History and Heroes"
+        "text": "1. Philippine History and Heroes"
       },
       {
         "type": "p",
@@ -145,7 +137,7 @@
       },
       {
         "type": "h3",
-        "text": "3. Code of Conduct and Ethical Standards (R.A. 6713)"
+        "text": "2. Code of Conduct and Ethical Standards (R.A. 6713)"
       },
       {
         "type": "p",
@@ -153,11 +145,48 @@
       },
       {
         "type": "h3",
-        "text": "4. Environmental Issues"
+        "text": "3. Environmental Issues"
       },
       {
         "type": "p",
         "text": "Be aware of major environmental laws and concepts in the Philippines."
+      }
+    ]
+  },
+  "philippine_constitution": {
+    "title": "Philippine Constitution Reviewer",
+    "content": [
+      {
+        "type": "h3",
+        "text": "1. Preamble & National Territory"
+      },
+      {
+        "type": "p",
+        "text": "Understand the introduction to the Constitution and the scope of the Philippine territory."
+      },
+      {
+        "type": "h3",
+        "text": "2. Bill of Rights (Article III)"
+      },
+      {
+        "type": "p",
+        "text": "This is a critical section. Familiarize yourself with the fundamental rights guaranteed to every Filipino citizen, such as freedom of speech, due process, and rights of the accused."
+      },
+      {
+        "type": "h3",
+        "text": "3. Three Branches of Government"
+      },
+      {
+        "type": "p",
+        "text": "Know the roles and powers of the Legislative (Congress), Executive (President), and Judicial (Supreme Court and lower courts) branches. Understand the concept of checks and balances."
+      },
+      {
+        "type": "h3",
+        "text": "4. Citizenship"
+      },
+      {
+        "type": "p",
+        "text": "Understand who are considered citizens of the Philippines (jus sanguinis vs. jus soli)."
       }
     ]
   }

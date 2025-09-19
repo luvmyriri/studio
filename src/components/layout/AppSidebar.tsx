@@ -21,6 +21,7 @@ import {
   ScanText,
   BookOpen,
   PencilRuler,
+  Gavel,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -30,6 +31,7 @@ const civilServiceSubjects = [
   { name: 'Clerical Analysis', icon: ScanText, query: 'Clerical Analysis', path: 'clerical-analysis' },
   { name: 'Science', icon: FlaskConical, query: 'Science', path: 'science' },
   { name: 'General Information', icon: Globe, query: 'General Information', path: 'general-information' },
+  { name: 'Philippine Constitution', icon: Gavel, query: 'Philippine Constitution', path: 'philippine-constitution' },
 ] as const;
 
 export function AppSidebar() {
