@@ -11,7 +11,7 @@ import { Header } from '@/components/layout/Header';
 import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
-  title: 'Civil Service Exam Prep - Firebase Studio',
+  title: 'BSOAD Civil Service Exam Reviewer',
   description: 'AI-powered Philippine Civil Service Exam preparation with personalized quizzes, study plans, and comprehensive analytics.',
 };
 

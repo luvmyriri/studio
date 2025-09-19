@@ -24,10 +24,10 @@ export default function DemoPage() {
       {/* Header */}
       <div className="text-center">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Philippine Civil Service Exam Prep
+          BSOAD Civil Service Exam Reviewer
         </h1>
         <p className="text-xl text-muted-foreground mt-2">
-          AI-Powered Learning Platform (Demo Mode)
+          AI-Powered Philippine Civil Service Learning Platform
         </p>
         <Badge variant="secondary" className="mt-4">
           Demo Environment - All Features Available
@@ -306,7 +306,7 @@ export default function DemoPage() {
             <div className="flex-1">
               <h3 className="font-semibold text-blue-900">Demo Mode Active</h3>
               <p className="text-blue-700 text-sm">
-                You're viewing the demo version of the Philippine Civil Service Exam Prep platform. 
+                You're viewing the demo version of BSOAD Civil Service Exam Reviewer platform. 
                 All features are functional but data is simulated for demonstration purposes.
               </p>
             </div>

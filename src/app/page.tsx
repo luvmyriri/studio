@@ -90,7 +90,7 @@ export default function Home() {
       <div className="text-center space-y-6 pt-8 md:pt-12">
         <BrainCircuit className="mx-auto w-24 h-24 text-primary animate-pulse" />
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary">
-          Ace the Philippine Civil Service Exam
+          BSOAD Civil Service Exam Reviewer
         </h1>
         <p className="max-w-3xl mx-auto text-muted-foreground md:text-xl">
           Your AI-powered study partner for personalized quizzes, mock exams, and

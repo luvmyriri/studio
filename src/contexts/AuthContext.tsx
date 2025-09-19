@@ -147,7 +147,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       toast({
         title: 'Account created!',
-        description: "Welcome to Civil Service Exam Prep. Let's start your learning journey!",
+        description: "Welcome to BSOAD Civil Service Exam Reviewer. Let's start your learning journey!",
       });
     } catch (error: any) {
       toast({
