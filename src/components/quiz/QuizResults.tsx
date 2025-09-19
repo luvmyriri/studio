@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import Link from 'next/link';
 
 interface QuizResultsProps {
   score: number;
@@ -25,11 +26,11 @@ export function QuizResults({ score, total, onRestart }: QuizResultsProps) {
   };
 
   if (percentage >= 80) {
-    feedback = { title: 'Excellent!', description: 'You are a true QuizWhiz!' };
+    feedback = { title: 'Excellent!', description: 'You have a strong grasp of the material!' };
   } else if (percentage >= 50) {
     feedback = {
       title: 'Good Job!',
-      description: 'You have a solid knowledge base.',
+      description: 'You have a solid knowledge base. Keep reviewing!',
     };
   } else {
     feedback = {
@@ -58,10 +59,15 @@ export function QuizResults({ score, total, onRestart }: QuizResultsProps) {
           </p>
           <p className="text-2xl font-semibold text-primary mt-2">{percentage}%</p>
         </div>
-        <Button onClick={onRestart} className="w-full">
-          <RotateCw className="mr-2 h-4 w-4" />
-          Create Another Quiz
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Button onClick={onRestart} className="w-full">
+            <RotateCw className="mr-2 h-4 w-4" />
+            Take Another Quiz
+          </Button>
+           <Button asChild variant="secondary" className="w-full">
+              <Link href="/">Back to Home</Link>
+            </Button>
+        </div>
       </CardContent>
     </Card>
   );

@@ -20,6 +20,7 @@ import {
   Languages,
   ScanText,
   BookOpen,
+  PencilRuler,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -49,6 +50,14 @@ export function AppSidebar() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/quiz'}>
+              <Link href="/quiz">
+                <PencilRuler />
+                Take a Quiz
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
         <SidebarSeparator />
         <SidebarGroup>
@@ -59,7 +68,7 @@ export function AppSidebar() {
             {civilServiceSubjects.map((subject) => (
               <SidebarMenuItem key={subject.name}>
                 <SidebarMenuButton asChild>
-                  <Link href={`/?topic=${encodeURIComponent(subject.query)}`}>
+                  <Link href={`/quiz?topic=${encodeURIComponent(subject.query)}`}>
                     <subject.icon />
                     {subject.name}
                   </Link>
@@ -76,7 +85,7 @@ export function AppSidebar() {
           <SidebarMenu>
             {civilServiceSubjects.map((subject) => (
               <SidebarMenuItem key={subject.path}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={pathname === `/resources/${subject.path}`}>
                   <Link href={`/resources/${subject.path}`}>
                     <subject.icon />
                     {subject.name}
