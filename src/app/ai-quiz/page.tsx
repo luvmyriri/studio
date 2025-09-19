@@ -1,8 +1,79 @@
+'use client';
+
+import { useState } from 'react';
 import { AIQuizGenerator } from '@/components/quiz/AIQuizGenerator';
+import { Quiz } from '@/components/quiz/Quiz';
+import { QuizResults } from '@/components/quiz/QuizResults';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Brain, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Brain, Sparkles, RotateCcw } from 'lucide-react';
+import type { Quiz as QuizType } from '@/lib/types';
 
 export default function AIQuizPage() {
+  const [currentQuiz, setCurrentQuiz] = useState<QuizType | null>(null);
+  const [quizResults, setQuizResults] = useState<{ score: number; total: number } | null>(null);
+  
+  const handleQuizGenerated = (quiz: QuizType) => {
+    setCurrentQuiz(quiz);
+    setQuizResults(null);
+  };
+  
+  const handleQuizFinished = (score: number, total: number) => {
+    setQuizResults({ score, total });
+    setCurrentQuiz(null);
+  };
+  
+  const handleBackToGenerator = () => {
+    setCurrentQuiz(null);
+    setQuizResults(null);
+  };
+  
+  // Show quiz results
+  if (quizResults) {
+    return (
+      <div className="space-y-6 animate-fade-in">
+        <QuizResults 
+          score={quizResults.score} 
+          total={quizResults.total}
+          onRestart={handleBackToGenerator}
+        />
+      </div>
+    );
+  }
+  
+  // Show quiz interface
+  if (currentQuiz) {
+    return (
+      <div className="space-y-6 animate-fade-in">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold flex items-center gap-2">
+              <Brain className="w-6 h-6 text-primary" />
+              {currentQuiz.title || 'AI Personalized Quiz'}
+            </h1>
+            <p className="text-muted-foreground">
+              {currentQuiz.description || 'AI-generated questions based on your performance'}
+            </p>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={handleBackToGenerator}
+            className="flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Back to Generator
+          </Button>
+        </div>
+        
+        <Quiz 
+          quiz={currentQuiz} 
+          onFinish={handleQuizFinished}
+        />
+      </div>
+    );
+  }
+  
+  // Show AI quiz generator (default state)
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center">
@@ -71,7 +142,7 @@ export default function AIQuizPage() {
       </Card>
 
       {/* AI Quiz Generator Component */}
-      <AIQuizGenerator />
+      <AIQuizGenerator onQuizGenerated={handleQuizGenerated} />
     </div>
   );
 }
