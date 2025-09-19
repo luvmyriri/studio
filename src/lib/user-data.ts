@@ -179,15 +179,31 @@ export async function saveQuizAttempt(userId: string, attempt: {
 
   // Update quiz attempts
   const updatedAttempts = [...userData.quizAttempts, newAttempt];
+  const newTotalPoints = userData.profile.totalPoints + (attempt.score * 10);
 
   // Recalculate performance metrics
   const updatedPerformance = calculatePerformanceMetrics(updatedAttempts);
+  
+  // Calculate level and experience
+  const { level, experience, experienceToNext } = calculateLevelAndExperience(updatedAttempts, newTotalPoints);
+  
+  // Check for new achievements
+  const tempUserData = { 
+    ...userData, 
+    quizAttempts: updatedAttempts, 
+    performance: updatedPerformance,
+    profile: { ...userData.profile, totalPoints: newTotalPoints }
+  };
+  const newAchievements = checkAchievements(tempUserData);
 
   await updateDoc(userRef, {
     quizAttempts: updatedAttempts,
     performance: updatedPerformance,
+    achievements: newAchievements,
     'profile.lastActive': serverTimestamp(),
-    'profile.totalPoints': userData.profile.totalPoints + (attempt.score * 10),
+    'profile.totalPoints': newTotalPoints,
+    'profile.level': level,
+    'profile.experience': experience,
     updatedAt: serverTimestamp(),
   });
 }
@@ -279,6 +295,99 @@ function calculatePerformanceMetrics(attempts: QuizAttempt[]): PerformanceMetric
     weakAreas,
     strongAreas,
   };
+}
+
+/**
+ * Calculate user level and experience from performance
+ */
+function calculateLevelAndExperience(attempts: QuizAttempt[], totalPoints: number): { level: number; experience: number; experienceToNext: number } {
+  // Calculate total experience based on performance
+  let experience = Math.floor(totalPoints / 10); // 10 points = 1 XP
+  
+  // Bonus XP for quiz completion
+  experience += attempts.length * 25; // 25 XP per quiz
+  
+  // Bonus XP for high scores
+  const highScoreBonus = attempts.filter(a => a.percentage >= 90).length * 50;
+  experience += highScoreBonus;
+  
+  const level = Math.floor(experience / 200) + 1; // 200 XP per level
+  const currentLevelXP = experience % 200;
+  const experienceToNext = 200 - currentLevelXP;
+  
+  return {
+    level,
+    experience: currentLevelXP,
+    experienceToNext,
+  };
+}
+
+/**
+ * Check and award achievements based on user performance
+ */
+function checkAchievements(userData: UserData): Achievement[] {
+  const achievements: Achievement[] = [];
+  const attempts = userData.quizAttempts;
+  const performance = userData.performance;
+  
+  // First quiz achievement
+  if (attempts.length >= 1) {
+    achievements.push({
+      id: 'first_quiz',
+      title: 'Getting Started',
+      description: 'Complete your first quiz',
+      icon: 'PlayCircle',
+      type: 'completion',
+      requirement: 1,
+      rarity: 'common',
+      unlockedAt: attempts[0].completedAt,
+    });
+  }
+  
+  // Perfect score achievement
+  const perfectScores = attempts.filter(a => a.percentage === 100);
+  if (perfectScores.length > 0) {
+    achievements.push({
+      id: 'perfect_score',
+      title: 'Perfectionist',
+      description: 'Score 100% on any quiz',
+      icon: 'Trophy',
+      type: 'score',
+      requirement: 100,
+      rarity: 'rare',
+      unlockedAt: perfectScores[0].completedAt,
+    });
+  }
+  
+  // Quiz master achievement
+  if (attempts.length >= 50) {
+    achievements.push({
+      id: 'quiz_master',
+      title: 'Quiz Master',
+      description: 'Complete 50 quizzes',
+      icon: 'Crown',
+      type: 'completion',
+      requirement: 50,
+      rarity: 'epic',
+      unlockedAt: attempts[49].completedAt,
+    });
+  }
+  
+  // High performer achievement
+  if (performance.averageScore >= 90) {
+    achievements.push({
+      id: 'high_performer',
+      title: 'High Performer',
+      description: 'Maintain 90% average score',
+      icon: 'Star',
+      type: 'score',
+      requirement: 90,
+      rarity: 'epic',
+      unlockedAt: new Date(),
+    });
+  }
+  
+  return achievements;
 }
 
 /**

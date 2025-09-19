@@ -37,10 +37,13 @@ import {
   Plus,
   Lock,
   Gift,
+  Loader2,
+  BarChart3,
 } from 'lucide-react';
 import { format, differenceInDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import type { Achievement, Badge as BadgeType } from '@/lib/types';
+import { getUserData, type UserData } from '@/lib/user-data';
 
 // Sample achievements data
 const sampleAchievements: Achievement[] = [
@@ -215,8 +218,57 @@ const recentActivities = [
 
 export function GamificationSystem() {
   const { currentUser } = useAuth();
-  const [userProgress, setUserProgress] = useState<UserProgress>(sampleUserProgress);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+
+  // Load user data from Firebase
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (currentUser) {
+        try {
+          const data = await getUserData(currentUser.uid);
+          setUserData(data);
+        } catch (error) {
+          console.error('Error loading user data:', error);
+        }
+      }
+      setLoading(false);
+    };
+
+    loadUserData();
+  }, [currentUser]);
+
+  // Convert userData to userProgress format for compatibility
+  const userProgress: UserProgress = userData ? {
+    level: userData.profile.level,
+    experience: userData.profile.experience,
+    experienceToNext: 200 - userData.profile.experience,
+    totalPoints: userData.profile.totalPoints,
+    studyStreak: userData.profile.streakCount,
+    longestStreak: userData.profile.streakCount, // This would need separate tracking
+    totalQuizzes: userData.performance.totalQuizzes,
+    perfectScores: userData.quizAttempts.filter(a => a.percentage === 100).length,
+    badges: [], // We'll implement this separately
+    achievements: userData.achievements.map(a => a.id),
+    weeklyGoal: 300,
+    weeklyProgress: Math.min(userData.profile.totalPoints % 300, 300),
+    dailyGoalStreak: userData.profile.streakCount,
+  } : {
+    level: 1,
+    experience: 0,
+    experienceToNext: 200,
+    totalPoints: 0,
+    studyStreak: 0,
+    longestStreak: 0,
+    totalQuizzes: 0,
+    perfectScores: 0,
+    badges: [],
+    achievements: [],
+    weeklyGoal: 300,
+    weeklyProgress: 0,
+    dailyGoalStreak: 0,
+  };
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
@@ -277,6 +329,57 @@ export function GamificationSystem() {
   const getExperienceForLevel = (level: number) => {
     return level * 200;
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading your achievements...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show empty state for new users
+  if (!currentUser || userProgress.totalQuizzes === 0) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold">Achievements & Progress</h1>
+          <p className="text-muted-foreground">
+            Track your learning journey and unlock rewards as you progress
+          </p>
+        </div>
+        
+        <Card>
+          <CardContent className="p-12 text-center">
+            <Award className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-xl font-semibold mb-2">Start Your Journey</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              Take quizzes and complete challenges to unlock achievements, gain experience, and level up! 
+              Your first achievement is just one quiz away.
+            </p>
+            <Button onClick={() => window.location.href = '/quiz'} className="mr-2">
+              <BookOpen className="w-4 h-4 mr-2" />
+              Take Your First Quiz
+            </Button>
+            <Button variant="outline" onClick={() => window.location.href = '/mock-exam'}>
+              <Brain className="w-4 h-4 mr-2" />
+              Try Mock Exam
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Use real achievements from user data
+  const currentAchievements = userData?.achievements || sampleAchievements.filter(a => userProgress.achievements.includes(a.id));
+  const availableAchievements = sampleAchievements;
 
   return (
     <div className="space-y-6">
@@ -422,28 +525,30 @@ export function GamificationSystem() {
                 <CardTitle>Recent Activity</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {recentActivities.map(activity => (
-                  <div key={activity.id} className="flex items-start gap-3 p-3 border rounded-lg">
-                    <div className={cn(
-                      "p-2 rounded-full flex-shrink-0",
-                      activity.rarity ? 'bg-gradient-to-br from-yellow-400 to-orange-500' : 'bg-blue-100'
-                    )}>
-                      {getSmallIconComponent(activity.icon)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm">{activity.title}</h4>
-                      <p className="text-xs text-muted-foreground">{activity.description}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="outline" className="text-xs">
-                          +{activity.points} XP
-                        </Badge>
-                        <span className="text-xs text-muted-foreground">
-                          {format(activity.timestamp, 'MMM dd, HH:mm')}
-                        </span>
+                {(userData?.quizAttempts || []).slice(-4).reverse().map((attempt, index) => {
+                  const points = attempt.score * 10 + (attempt.percentage >= 90 ? 25 : 0);
+                  return (
+                    <div key={attempt.id} className="flex items-start gap-3 p-3 border rounded-lg">
+                      <div className="p-2 rounded-full flex-shrink-0 bg-blue-100">
+                        <BookOpen className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-sm">{attempt.quizTitle} completed</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Scored {attempt.percentage}% ({attempt.score}/{attempt.totalQuestions})
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge variant="outline" className="text-xs">
+                            +{points} XP
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">
+                            {format(attempt.completedAt, 'MMM dd, HH:mm')}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </CardContent>
             </Card>
           </div>
@@ -457,8 +562,8 @@ export function GamificationSystem() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {sampleAchievements.map(achievement => {
-                  const isUnlocked = userProgress.achievements.includes(achievement.id);
+                {availableAchievements.map(achievement => {
+                  const isUnlocked = currentAchievements.some(a => a.id === achievement.id);
                   
                   return (
                     <Card key={achievement.id} className={cn(
