@@ -19,15 +19,16 @@ import {
   Home,
   Languages,
   ScanText,
+  BookOpen,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 const civilServiceSubjects = [
-  { name: 'Mathematics', icon: Calculator, query: 'Mathematics' },
-  { name: 'Vocabulary', icon: Languages, query: 'Vocabulary (English and Tagalog)' },
-  { name: 'Clerical Analysis', icon: ScanText, query: 'Clerical Analysis' },
-  { name: 'Science', icon: FlaskConical, query: 'Science' },
-  { name: 'General Information', icon: Globe, query: 'General Information' },
+  { name: 'Mathematics', icon: Calculator, query: 'Mathematics', path: 'mathematics' },
+  { name: 'Vocabulary', icon: Languages, query: 'Vocabulary (English and Tagalog)', path: 'vocabulary' },
+  { name: 'Clerical Analysis', icon: ScanText, query: 'Clerical Analysis', path: 'clerical-analysis' },
+  { name: 'Science', icon: FlaskConical, query: 'Science', path: 'science' },
+  { name: 'General Information', icon: Globe, query: 'General Information', path: 'general-information' },
 ] as const;
 
 export function AppSidebar() {
@@ -59,6 +60,24 @@ export function AppSidebar() {
               <SidebarMenuItem key={subject.name}>
                 <SidebarMenuButton asChild>
                   <Link href={`/?topic=${encodeURIComponent(subject.query)}`}>
+                    <subject.icon />
+                    {subject.name}
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+        <SidebarSeparator />
+        <SidebarGroup>
+           <SidebarGroupLabel className="flex items-center gap-2">
+            <BookOpen /> Resources
+          </SidebarGroupLabel>
+          <SidebarMenu>
+            {civilServiceSubjects.map((subject) => (
+              <SidebarMenuItem key={subject.path}>
+                <SidebarMenuButton asChild>
+                  <Link href={`/resources/${subject.path}`}>
                     <subject.icon />
                     {subject.name}
                   </Link>

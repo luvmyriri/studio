@@ -1,0 +1,164 @@
+
+{
+  "mathematics": {
+    "title": "Mathematics Reviewer",
+    "content": [
+      {
+        "type": "h3",
+        "text": "1. Basic Operations & PEMDAS"
+      },
+      {
+        "type": "p",
+        "text": "Master addition, subtraction, multiplication, and division. Remember the order of operations: Parentheses, Exponents, Multiplication and Division (from left to right), Addition and Subtraction (from left to right)."
+      },
+      {
+        "type": "h3",
+        "text": "2. Fractions, Decimals, and Percentages"
+      },
+      {
+        "type": "p",
+        "text": "Practice converting between these three forms. Understand how to perform basic operations on them. Example: 1/2 = 0.5 = 50%."
+      },
+      {
+        "type": "h3",
+        "text": "3. Word Problems"
+      },
+      {
+        "type": "p",
+        "text": "Read the problem carefully to identify what is being asked. Translate the words into mathematical equations. Look for keywords like 'sum' (addition), 'difference' (subtraction), 'product' (multiplication), and 'quotient' (division)."
+      },
+      {
+        "type": "h3",
+        "text": "4. Ratio and Proportion"
+      },
+      {
+        "type": "p",
+        "text": "A ratio compares two quantities. A proportion is an equation stating that two ratios are equal. Example: If 3 apples cost ₱45, how much do 5 apples cost? (3/45 = 5/x)."
+      }
+    ]
+  },
+  "vocabulary": {
+    "title": "Vocabulary (English & Tagalog)",
+    "content": [
+      {
+        "type": "h3",
+        "text": "1. Synonyms and Antonyms"
+      },
+      {
+        "type": "p",
+        "text": "Synonyms are words with similar meanings (e.g., happy/joyful). Antonyms are words with opposite meanings (e.g., hot/cold). Expand your vocabulary by reading and using a thesaurus."
+      },
+      {
+        "type": "h3",
+        "text": "2. Context Clues"
+      },
+      {
+        "type": "p",
+        "text": "Use the surrounding words and sentences to figure out the meaning of an unfamiliar word. This is a crucial skill for reading comprehension."
+      },
+      {
+        "type": "h3",
+        "text": "3. Salawikain at Sawikain (Tagalog)"
+      },
+      {
+        "type": "p",
+        "text": "Salawikain (proverbs) are traditional sayings that express a perceived truth. Sawikain (idioms) are phrases where the meaning isn't literal. Example (Sawikain): 'Balat-sibuyas' means easily offended, not literally 'onion-skinned'."
+      }
+    ]
+  },
+  "clerical-analysis": {
+    "title": "Clerical Analysis Reviewer",
+    "content": [
+      {
+        "type": "h3",
+        "text": "1. Alphabetical Filing"
+      },
+      {
+        "type": "p",
+        "text": "Rules can be complex. Remember 'Nothing before something'. Names like 'De La Cruz' are often treated as one unit. Practice with different name formats."
+      },
+      {
+        "type": "h3",
+        "text": "2. Spelling and Grammar"
+      },
+      {
+        "type": "p",
+        "text": "Review common spelling errors and basic grammar rules (subject-verb agreement, correct pronoun usage, etc.)."
+      },
+      {
+        "type": "h3",
+        "text": "3. Following Instructions"
+      },
+      {
+        "type": "p",
+        "text": "These questions test your ability to read carefully and execute tasks as described. Don't rush. Read every word of the instructions."
+      }
+    ]
+  },
+  "science": {
+    "title": "Science Reviewer",
+    "content": [
+      {
+        "type": "h3",
+        "text": "1. Earth Science"
+      },
+      {
+        "type": "p",
+        "text": "Basic knowledge of the solar system, weather patterns, and the layers of the Earth."
+      },
+      {
+        "type": "h3",
+        "text": "2. Biology"
+      },
+      {
+        "type": "p",
+        "text": "Understand basic cell structure ('powerhouse of the cell' is the mitochondrion), photosynthesis, and the human body's organ systems."
+      },
+      {
+        "type": "h3",
+        "text": "3. Chemistry"
+      },
+      {
+        "type": "p",
+        "text": "Know the basic states of matter (solid, liquid, gas) and the difference between physical and chemical changes."
+      }
+    ]
+  },
+  "general-information": {
+    "title": "General Information Reviewer",
+    "content": [
+      {
+        "type": "h3",
+        "text": "1. Philippine Constitution"
+      },
+      {
+        "type": "p",
+        "text": "Familiarize yourself with the preamble, the three branches of government (Executive, Legislative, Judicial), and basic rights of citizens."
+      },
+      {
+        "type": "h3",
+        "text": "2. Philippine History and Heroes"
+      },
+      {
+        "type": "p",
+        "text": "Know key events like the Philippine Revolution and key figures like Jose Rizal, Andres Bonifacio, and Emilio Aguinaldo."
+      },
+      {
+        "type": "h3",
+        "text": "3. Code of Conduct and Ethical Standards (R.A. 6713)"
+      },
+      {
+        "type": "p",
+        "text": "Understand the norms of behavior for public officials and employees."
+      },
+      {
+        "type": "h3",
+        "text": "4. Environmental Issues"
+      },
+      {
+        "type": "p",
+        "text": "Be aware of major environmental laws and concepts in the Philippines."
+      }
+    ]
+  }
+}
