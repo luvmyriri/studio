@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { generateQuiz } from '@/app/actions';
+// import { generateQuiz } from '@/app/actions'; // Disabled for static export
 import type { Quiz } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import {
@@ -69,22 +69,35 @@ export function QuizGenerator({ onQuizGenerated, initialTopic }: QuizGeneratorPr
 
   async function onSubmit(values: QuizFormValues) {
     setIsLoading(true);
-    const result = await generateQuiz(
-      values.topic,
-      values.numQuestions,
-      values.difficulty
-    );
+    
+    // Mock quiz generation for static demo
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate loading
+    
+    const mockQuiz = {
+      quiz: Array.from({ length: values.numQuestions }, (_, i) => ({
+        id: `q${i + 1}`,
+        question: `Sample ${values.topic} question ${i + 1} (${values.difficulty} difficulty)`,
+        answers: [
+          `Option A for question ${i + 1}`,
+          `Option B for question ${i + 1}`,
+          `Option C for question ${i + 1}`,
+          `Option D for question ${i + 1}`
+        ],
+        correctAnswer: `Option A for question ${i + 1}`,
+        subject: values.topic,
+        difficulty: values.difficulty,
+        explanation: `This is the explanation for question ${i + 1}`,
+        tags: [values.topic.toLowerCase().replace(/\s+/g, '-')]
+      }))
+    };
+    
     setIsLoading(false);
-
-    if (result.success) {
-      onQuizGenerated(result.quiz);
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Error generating quiz',
-        description: result.error,
-      });
-    }
+    onQuizGenerated(mockQuiz);
+    
+    toast({
+      title: 'Quiz Generated!',
+      description: `Generated ${values.numQuestions} questions for ${values.topic} (Demo Mode)`,
+    });
   }
 
   return (

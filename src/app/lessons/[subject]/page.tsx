@@ -10,6 +10,22 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Lightbulb } from 'lucide-react';
 import resources from '@/lib/resources.json';
 
+// Generate static params for all available subjects
+export async function generateStaticParams() {
+  const subjects = [
+    'mathematics',
+    'vocabulary',
+    'clerical-analysis',
+    'science',
+    'general-information',
+    'philippine-constitution'
+  ];
+  
+  return subjects.map((subject) => ({
+    subject: subject,
+  }));
+}
+
 type ResourceContent = {
   type: 'h3' | 'p';
   text: string;

@@ -11,8 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Book, PencilRuler, CheckCircle } from 'lucide-react';
+import { Book, PencilRuler, CheckCircle, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { StudyPlanGenerator } from '@/components/study/StudyPlanGenerator';
 
 const studyPlans = {
   mathematics: {
@@ -276,6 +277,22 @@ export default function StudyPlansPage() {
           Your step-by-step guide to mastering the Civil Service Exam subjects.
         </p>
       </div>
+
+      {/* AI-Powered Study Plan Generator */}
+      <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Zap className="w-5 h-5 text-blue-600" />
+            AI-Powered Personal Study Planner
+          </CardTitle>
+          <CardDescription>
+            Get a customized study plan based on your goals, schedule, and learning preferences.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <StudyPlanGenerator />
+        </CardContent>
+      </Card>
 
       {Object.values(studyPlans).map((plan) => (
         <Card key={plan.title}>
