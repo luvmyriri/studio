@@ -22,7 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -33,8 +32,16 @@ import {
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+const civilServiceSubjects = [
+  'Mathematics',
+  'Vocabulary (English and Tagalog)',
+  'Clerical Analysis',
+  'Science',
+  'General Information',
+] as const;
+
 const formSchema = z.object({
-  topic: z.string().min(3, 'Topic must be at least 3 characters long.'),
+  topic: z.enum(civilServiceSubjects),
   numQuestions: z.coerce.number().min(3).max(10),
   difficulty: z.enum(['easy', 'medium', 'hard']),
 });
@@ -52,7 +59,7 @@ export function QuizGenerator({ onQuizGenerated }: QuizGeneratorProps) {
   const form = useForm<QuizFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      topic: '',
+      topic: 'General Information',
       numQuestions: 5,
       difficulty: 'medium',
     },
@@ -79,11 +86,13 @@ export function QuizGenerator({ onQuizGenerated }: QuizGeneratorProps) {
   }
 
   return (
-    <Card className="max-w-2xl mx-auto animate-fade-in">
+    <Card className="max-w-2xl mx-auto animate-fade-in bg-card/80 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="text-3xl font-bold">Create Your Quiz</CardTitle>
+        <CardTitle className="text-3xl font-bold">
+          Civil Service Exam Reviewer
+        </CardTitle>
         <CardDescription>
-          Let our AI generate a fun quiz for you on any topic.
+          Select a subject and let our AI generate a practice quiz for you.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -94,10 +103,21 @@ export function QuizGenerator({ onQuizGenerated }: QuizGeneratorProps) {
               name="topic"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Topic</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., Roman History" {...field} />
-                  </FormControl>
+                  <FormLabel>Subject</FormLabel>
+                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a subject" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {civilServiceSubjects.map((subject) => (
+                          <SelectItem key={subject} value={subject}>
+                            {subject}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   <FormMessage />
                 </FormItem>
               )}

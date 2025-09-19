@@ -11,7 +11,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateQuizFromTopicInputSchema = z.object({
-  topic: z.string().describe('The topic of the quiz.'),
+  topic: z.string().describe('The topic of the quiz. This will be a subject for the Philippine Civil Service Exam.'),
   numQuestions: z
     .number()
     .min(1)
@@ -42,26 +42,26 @@ const generateQuizPrompt = ai.definePrompt({
   name: 'generateQuizPrompt',
   input: {schema: GenerateQuizFromTopicInputSchema},
   output: {schema: GenerateQuizFromTopicOutputSchema},
-  prompt: `You are a quiz generator. Generate a quiz on the following topic with the specified number of questions and difficulty level.
+  prompt: `You are a quiz generator for the Philippine Civil Service Exam. Generate a quiz on the following subject with the specified number of questions and difficulty level.
 
-Topic: {{{topic}}}
+Subject: {{{topic}}}
 Number of Questions: {{{numQuestions}}}
 Difficulty: {{{difficulty}}}
 
-The quiz should be returned in JSON format. Each question should have the question text, possible answers, and the correct answer.
+The quiz should be returned in JSON format. Each question should have the question text, 4 possible answers, and the correct answer.
 
 Example:
 {
   "quiz": [
     {
-      "question": "What is the capital of France?",
-      "answers": ["Paris", "London", "Berlin", "Rome"],
-      "correctAnswer": "Paris"
+      "question": "What is the capital of the Philippines?",
+      "answers": ["Manila", "Cebu", "Davao", "Quezon City"],
+      "correctAnswer": "Manila"
     },
     {
-      "question": "What is the highest mountain in the world?",
-      "answers": ["Mount Everest", "K2", "Kangchenjunga", "Lhotse"],
-      "correctAnswer": "Mount Everest"
+      "question": "Who is the national hero of the Philippines?",
+      "answers": ["Andres Bonifacio", "Emilio Aguinaldo", "Jose Rizal", "Apolinario Mabini"],
+      "correctAnswer": "Jose Rizal"
     }
   ]
 }
