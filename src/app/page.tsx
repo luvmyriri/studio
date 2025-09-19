@@ -134,7 +134,7 @@ export default function Home() {
         </div>
         
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-600 to-purple-600">
-          AI-Powered Civil Service Exam Reviewer
+          BSOAD Civil Service Exam Reviewer
         </h1>
         <p className="max-w-3xl mx-auto text-muted-foreground md:text-xl leading-relaxed">
           Experience the future of exam preparation with <span className="font-semibold text-blue-600">Google Gemini AI</span>. 
