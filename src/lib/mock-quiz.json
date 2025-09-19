@@ -1,0 +1,104 @@
+{
+  "quiz": [
+    {
+      "question": "If a dozen eggs cost ₱84, how much would 18 eggs cost?",
+      "answers": ["₱126", "₱112", "₱140", "₱168"],
+      "correctAnswer": "₱126"
+    },
+    {
+      "question": "What is the English translation of the Tagalog word 'Mabuhay'?",
+      "answers": ["Goodbye", "Welcome", "Long live", "Thank you"],
+      "correctAnswer": "Long live"
+    },
+    {
+      "question": "Which of the following is an example of a primary source?",
+      "answers": ["A textbook chapter on the Philippine Revolution", "A biography of Jose Rizal", "A documentary about World War II", "A letter written by Apolinario Mabini"],
+      "correctAnswer": "A letter written by Apolinario Mabini"
+    },
+    {
+      "question": "Which planet is known as the Red Planet?",
+      "answers": ["Earth", "Mars", "Jupiter", "Venus"],
+      "correctAnswer": "Mars"
+    },
+    {
+      "question": "What is the capital city of the Philippines?",
+      "answers": ["Quezon City", "Makati", "Manila", "Cebu"],
+      "correctAnswer": "Manila"
+    },
+    {
+      "question": "A train travels at 60 km/h. How far will it travel in 2.5 hours?",
+      "answers": ["120 km", "150 km", "180 km", "200 km"],
+      "correctAnswer": "150 km"
+    },
+    {
+        "question": "Choose the correct spelling: a word that means 'required'.",
+        "answers": ["Nessesary", "Necesarry", "Necessary", "Neccessary"],
+        "correctAnswer": "Necessary"
+    },
+    {
+        "question": "Alin sa mga sumusunod ang kasalungat ng salitang 'masaya'?",
+        "answers": ["maligaya", "malungkot", "galit", "takot"],
+        "correctAnswer": "malungkot"
+    },
+    {
+        "question": "You are asked to file the following names: 1. Dela Cruz, Juan 2. De La Cruz, Maria 3. Delos Santos, Pedro 4. De Leon, Anna. What is the correct alphabetical order?",
+        "answers": ["4, 1, 2, 3", "1, 2, 4, 3", "4, 2, 1, 3", "1, 4, 2, 3"],
+        "correctAnswer": "4, 2, 1, 3"
+    },
+    {
+        "question": "What is the process by which plants make their own food?",
+        "answers": ["Respiration", "Transpiration", "Photosynthesis", "Germination"],
+        "correctAnswer": "Photosynthesis"
+    },
+    {
+        "question": "The Philippine-American War happened after which war?",
+        "answers": ["World War I", "Spanish-American War", "World War II", "Philippine Revolution"],
+        "correctAnswer": "Spanish-American War"
+    },
+    {
+        "question": "If 5 workers can build a wall in 8 days, how many workers are needed to build the same wall in 4 days?",
+        "answers": ["8", "10", "12", "15"],
+        "correctAnswer": "10"
+    },
+    {
+        "question": "Synonym for 'ubiquitous':",
+        "answers": ["rare", "scarce", "commonplace", "hidden"],
+        "correctAnswer": "commonplace"
+    },
+    {
+        "question": "What comes next in the sequence: A, C, F, J, O, ___?",
+        "answers": ["U", "T", "S", "V"],
+        "correctAnswer": "U"
+    },
+    {
+        "question": "What is the powerhouse of the cell?",
+        "answers": ["Nucleus", "Ribosome", "Mitochondrion", "Cell Wall"],
+        "correctAnswer": "Mitochondrion"
+    },
+    {
+        "question": "Who was the first president of the Republic of the Philippines?",
+        "answers": ["Manuel L. Quezon", "Emilio Aguinaldo", "Jose P. Laurel", "Sergio Osmeña"],
+        "correctAnswer": "Emilio Aguinaldo"
+    },
+    {
+        "question": "Simplify: (3x + 2y) - (x - 4y)",
+        "answers": ["2x + 6y", "2x - 2y", "4x - 2y", "4x + 6y"],
+        "correctAnswer": "2x + 6y"
+    },
+    {
+        "question": "Antonym of 'ephemeral':",
+        "answers": ["transient", "fleeting", "permanent", "momentary"],
+        "correctAnswer": "permanent"
+    },
+    {
+        "question": "Arrange the following words to form a grammatically correct sentence: 'cat the mat on sat the'",
+        "answers": ["The cat sat on the mat.", "Sat the cat on the mat.", "On the mat the cat sat.", "The mat sat on the cat."],
+        "correctAnswer": "The cat sat on the mat."
+    },
+    {
+        "question": "What law is also known as the 'Responsible Parenthood and Reproductive Health Act of 2012'?",
+        "answers": ["RA 10354", "RA 9262", "RA 7610", "RA 8353"],
+        "correctAnswer": "RA 10354"
+    }
+  ]
+}

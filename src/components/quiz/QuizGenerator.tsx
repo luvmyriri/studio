@@ -89,7 +89,7 @@ export function QuizGenerator({ onQuizGenerated }: QuizGeneratorProps) {
     <Card className="max-w-2xl mx-auto animate-fade-in bg-card/80 backdrop-blur-sm">
       <CardHeader>
         <CardTitle className="text-3xl font-bold">
-          Civil Service Exam Reviewer
+          AI-Generated Quiz
         </CardTitle>
         <CardDescription>
           Select a subject and let our AI generate a practice quiz for you.
